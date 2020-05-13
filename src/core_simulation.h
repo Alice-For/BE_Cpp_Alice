@@ -16,6 +16,7 @@
 
 #define DELAY 3
 #define TEMP 22
+#define LUM 200
 #define HIGH 1
 #define LOW 0
 #define MAX_I2C_DEVICES 4
