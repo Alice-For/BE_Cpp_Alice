@@ -3,9 +3,12 @@
 
 using namespace std;
 
-//int luminosite_environnement=200;
+int luminosite_environnement=200;
+int bouton_app=0;
+
 //capteur de luminosite
-AnalogSensorLuminosity::AnalogSensorLuminosity(int d, int t):Device(), temps(d), val(t){
+//declaration de val et temps doit etre dans le meme ordre que dans le .h
+AnalogSensorLuminosity::AnalogSensorLuminosity(int d, int t):Device(), val(t), temps(d) {
 	
 }
 
@@ -13,16 +16,16 @@ void AnalogSensorLuminosity::run(){
   while(1){
     //alea=1-alea;
     if(ptrmem!=NULL)
-      *ptrmem=val; //+alea;
+      *ptrmem=luminosite_environnement; //+alea;
     sleep(temps);
   }
 }
-
+/*
 int AnalogSensorLuminosity::LE(){
 	int lum=luminosite_environnement;
 	return lum;		
 }
-
+*/
 
 
 
@@ -61,6 +64,7 @@ IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):Device(),sta
 }
 
 void IntelligentDigitalActuatorLED::run(){
+	//AnalogSensorLuminosity truc(DELAY,LUM);
 	  while(1){
 	    if(ptrmem!=NULL)
 	      state=*ptrmem;
@@ -97,7 +101,28 @@ void I2CActuatorScreen::run(){
     }
 }
 
+ExternalDigitalSensorButton::ExternalDigitalSensorButton():Device(){}
 
+int ExternalDigitalSensorButton :: DetectButton(){
+	int appui;
+	
+	if(ifstream("on.txt")){
+		appui = 1;
+	}
+	else {
+		appui=0;
+	}
+	return appui;
+}
+
+void ExternalDigitalSensorButton ::run(){
+	while(1){
+		bouton_app= DetectButton();
+		
+		
+	}
+	
+}
 
 
 

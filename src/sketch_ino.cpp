@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include "core_simulation.h"
+#include "mydevices.h"
 
 // la fonction d'initialisation d'arduino
 void Board::setup(){
@@ -10,6 +11,7 @@ void Board::setup(){
   pinMode(0,OUTPUT);
   pinMode(2,INPUT);
   pinMode(3,OUTPUT);
+  pinMode(4,INPUT);
 }
 
 // la boucle de controle arduino
@@ -17,8 +19,9 @@ void Board::loop(){
   char buf[100], buf2[100];
   int val, val2;
   static int cpt=0;
-  static int bascule=0;
-  static int bascule2=0;
+  //static int bascule=0;
+  ExternalDigitalSensorButton boutton;
+  static int bouton=boutton.DetectButton();
   int i=0;
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
@@ -43,17 +46,23 @@ void Board::loop(){
     sleep(1);
   }
 // on eteint et on allume la LED
+  
+  /*
   if(bascule)
     digitalWrite(0,HIGH);
   else
     digitalWrite(0,LOW);
-  bascule=1-bascule;
+  bascule=1-bascule;*/
   
-  if(bascule2)
-    digitalWrite(3,HIGH);
-  else
+  if(boutton.DetectButton()) {
+	  digitalWrite(3,HIGH);
+	  cout <<"LED on"<<endl;
+  }
+  else{
     digitalWrite(3,LOW);
-  bascule2=1-bascule2;
+    cout<<"LED off"<<endl;
+  }
+  //bascule2=1-bascule2;
   
   
 }

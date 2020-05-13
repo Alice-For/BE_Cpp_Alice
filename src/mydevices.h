@@ -1,17 +1,20 @@
 #ifndef MYDEVICES_H
 #define MYDEVICES_H
 
+#include <fstream>
 #include <iostream>
 #include <thread>
 #include <unistd.h>
 #include <string.h>
 #include "core_simulation.h"
 
-int luminosite_environnement=LUM;
+//int global luminosite_environnement=LUM;
+
 
 class AnalogSensorLuminosity: public Device{
 public :
 	AnalogSensorLuminosity(int d, int t);
+	//int static luminosite_environnement;
 	
 private :
 	  // valeur de temperature mesuree
@@ -22,10 +25,12 @@ private :
 public :
 	virtual void run();
 			
-	int LE();
+	//LE pas utile
+	//run change la valeur et on la recupere avec le read, donc deja fait
+	//int LE();
 	
 };
-
+//int AnalogSensorLuminosity::luminosite_environnement=LUM;
 
 
 
@@ -90,5 +95,18 @@ public:
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
+
+//Bouton exterieur
+class ExternalDigitalSensorButton: public Device {
+	
+public :
+	ExternalDigitalSensorButton();
+	
+	int DetectButton();
+	
+	void run();
+	
+};
+
 
 #endif
