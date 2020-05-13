@@ -19,7 +19,7 @@ void AnalogSensorLuminosity::run(){
 }
 
 int AnalogSensorLuminosity::LE(){
-	int lum=LUM;
+	int lum=luminosite_environnement;
 	return lum;		
 }
 
@@ -55,6 +55,33 @@ void DigitalActuatorLED::run(){
     sleep(temps);
     }
 }
+
+//classe IntelligentDigitalActuatorLED
+IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):Device(),state(LOW),temps(t){
+}
+
+void IntelligentDigitalActuatorLED::run(){
+	  while(1){
+	    if(ptrmem!=NULL)
+	      state=*ptrmem;
+	    if (state==LOW){
+	      cout << "((((eteint))))\n";
+	      luminosite_environnement=200;
+	    }
+	    
+	    else {
+	    cout << "((((allume))))\n";
+	    luminosite_environnement=250;
+	    }
+	    
+	    sleep(temps);
+	    }
+	
+	
+}
+
+
+
 
 // classe I2CActuatorScreen
 I2CActuatorScreen::I2CActuatorScreen ():Device(){

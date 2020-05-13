@@ -9,6 +9,7 @@ void Board::setup(){
   pinMode(1,INPUT);
   pinMode(0,OUTPUT);
   pinMode(2,INPUT);
+  pinMode(3,OUTPUT);
 }
 
 // la boucle de controle arduino
@@ -17,6 +18,7 @@ void Board::loop(){
   int val, val2;
   static int cpt=0;
   static int bascule=0;
+  static int bascule2=0;
   int i=0;
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
@@ -33,10 +35,9 @@ void Board::loop(){
       bus.write(1,buf,100);
     }
     if(cpt%5==1){
-            // tous les 5 fois on affiche sur l ecran la luminosite
-          
-          sprintf(buf2,"%d",val2);
-          bus.write(1,buf2,100);
+        // tous les 5 fois on affiche sur l ecran la luminosite  
+    	sprintf(buf2,"%d",val2);
+        bus.write(1,buf2,100);
         }
     cpt++;
     sleep(1);
@@ -47,6 +48,13 @@ void Board::loop(){
   else
     digitalWrite(0,LOW);
   bascule=1-bascule;
+  
+  if(bascule2)
+    digitalWrite(3,HIGH);
+  else
+    digitalWrite(3,LOW);
+  bascule2=1-bascule2;
+  
   
 }
 
