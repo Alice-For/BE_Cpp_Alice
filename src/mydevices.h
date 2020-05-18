@@ -10,46 +10,66 @@
 
 //int global luminosite_environnement=LUM;
 
+//////////////////////////// CLASSE CAPTEUR //////////////////////////////////////////
+class Capteur : public Device{
+public :
+	Capteur();
+	Capteur(float a, int d, float v);
+	float Get_val();
+	void Set_val(float v) ; //sorte de reset
 
-class AnalogSensorLuminosity: public Device{
+
+protected :
+	float valeur_lue ; //valeur lue par le capteur
+	float alea ; //ecart entre les differentes valeurs mesurees
+	int delai ; //temps ecoule entre deux mesures
+
+	//valeurs statiques avec les valeurs de l'environnement ?
+
+};
+//////////////////////////// CLASSE CAPTEUR DE LUMINOSITE //////////////////////////////////////////
+class AnalogSensorLuminosity: public Capteur {
 public :
-	AnalogSensorLuminosity(int d, int t);
+	AnalogSensorLuminosity(float a, int d, float v);
 	//int static luminosite_environnement;
+	float Get_val();
 	
-private :
-	  // valeur de temperature mesuree
-	  int val;
-	  // temps entre 2 prises de valeurs
-	  int temps;
-	
-public :
 	virtual void run();
 			
-	//LE pas utile
-	//run change la valeur et on la recupere avec le read, donc deja fait
-	//int LE();
 	
 };
 //int AnalogSensorLuminosity::luminosite_environnement=LUM;
 
 
-
-// exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
-class AnalogSensorTemperature: public Device {
-private:
-  // fait osciller la valeur du cpateur de 1
-  int alea;
-  // valeur de temperature mesuree
-  int val;
-  // temps entre 2 prises de valeurs
-  int temps;
+//////////////////////////// CLASSE CAPTEUR TEMPERATURE //////////////////////////////////////////
+class AnalogSensorTemperature: public Capteur {
   
 public:
-  //constructeur ne pas oublier d'initialiser la classe mere
-  AnalogSensorTemperature(int d,int  t);
+  //constructeur
+  AnalogSensorTemperature(float a, int d, float v);
+  float Get_val();
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
+
+
+//////////////////////////// CLASSE CAPTEUR TEMPERATURE //////////////////////////////////////////
+class AnalogSensorHumidity: public Capteur {
+
+public:
+  //constructeur
+  AnalogSensorHumidity (float a, int d, float v);
+  // thread representant le capteur et permettant de fonctionner independamment de la board
+  float Get_val();
+  virtual void run();
+};
+
+
+
+
+
+
+
 
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
 class DigitalActuatorLED: public Device {

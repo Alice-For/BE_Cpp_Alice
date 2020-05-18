@@ -6,10 +6,43 @@ using namespace std;
 int luminosite_environnement=200;
 int bouton_app=0;
 
-//capteur de luminosite
-//declaration de val et temps doit etre dans le meme ordre que dans le .h
-AnalogSensorLuminosity::AnalogSensorLuminosity(int d, int t):Device(), val(t), temps(d) {
-	
+
+
+
+//////////////////////////// CLASSE CAPTEUR //////////////////////////////////////////
+
+Capteur ::Capteur():Device(){
+	alea=0;
+	delai=1;
+	valeur_lue=0;
+}
+
+Capteur ::Capteur(float a, int d, float v):Device(), alea(a), delai(d), valeur_lue(v){
+	//valeur_lue=0;
+}
+
+float Capteur::Get_val(){
+	return valeur_lue;
+}
+
+void Capteur ::Set_val(float v) {
+	valeur_lue=v;
+
+}
+
+//////////////////////////// CLASSE CAPTEUR LUMINOSITE //////////////////////////////////////////
+
+
+//ordre des arguments doit etre le meme que dans le .h
+AnalogSensorLuminosity::AnalogSensorLuminosity(float a, int d, float v):Capteur(a, d, v) {
+	cout <<"Capteur luminosite initialise"<<endl;
+}
+
+float AnalogSensorLuminosity::Get_val(){
+	float toreturn;
+	toreturn = Capteur::Get_val();
+	cout <<"Valeur mesure luminosite" <<endl;
+	return toreturn;
 }
 
 void AnalogSensorLuminosity::run(){
@@ -27,11 +60,18 @@ int AnalogSensorLuminosity::LE(){
 }
 */
 
-
+//////////////////////////// CLASSE CAPTEUR TEMPERATURE //////////////////////////////////////////
 
 //classe AnalogSensorTemperature
-AnalogSensorTemperature::AnalogSensorTemperature(int d,int  t):Device(),val(t),temps(d){
-  alea=1;
+AnalogSensorTemperature::AnalogSensorTemperature(float a, int d, float v):Capteur(a, d, v){
+	cout <<"Capteur temperature initialise"<<endl;
+}
+
+float AnalogSensorTemperature::Get_val(){
+	float toreturn;
+	toreturn = Capteur::Get_val();
+	cout <<"Valeur mesure temperature" <<endl;
+	return toreturn;
 }
 
 void AnalogSensorTemperature::run(){
@@ -42,6 +82,8 @@ void AnalogSensorTemperature::run(){
     sleep(temps);
   }
 }
+
+//////////////////////////// CLASSE ACTIONNEUR LED //////////////////////////////////////////
 
 //classe DigitalActuatorLED
 DigitalActuatorLED::DigitalActuatorLED(int t):Device(),state(LOW),temps(t){
@@ -58,6 +100,8 @@ void DigitalActuatorLED::run(){
     sleep(temps);
     }
 }
+
+//////////////////////////// CLASSE ACTIONNEUR LED INTELLIGENTE //////////////////////////////////////////
 
 //classe IntelligentDigitalActuatorLED
 IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):Device(),state(LOW),temps(t){
