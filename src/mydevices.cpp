@@ -3,6 +3,7 @@
 
 using namespace std;
 
+//variables d'environnement
 int luminosite_environnement=200;
 int bouton_app=0;
 
@@ -13,20 +14,20 @@ int bouton_app=0;
 
 Capteur ::Capteur():Device(){
 	alea=0;
-	delai=1;
-	valeur_lue=0;
+	temps=1;
+	val=0;
 }
 
-Capteur ::Capteur(float a, int d, float v):Device(), alea(a), delai(d), valeur_lue(v){
+Capteur ::Capteur(float a, int d, float v):Device(), alea(a), temps(d), valeur(v){
 	//valeur_lue=0;
 }
 
 float Capteur::Get_val(){
-	return valeur_lue;
+	return val;
 }
 
-void Capteur ::Set_val(float v) {
-	valeur_lue=v;
+void Capteur::Set_val(float v) {
+	val=v;
 
 }
 
@@ -82,6 +83,60 @@ void AnalogSensorTemperature::run(){
     sleep(temps);
   }
 }
+
+
+//////////////////////////// CLASSE CAPTEUR HUMIDITE //////////////////////////////////////////
+
+  //constructeur
+AnalogSensorHumidity::AnalogSensorHumidity (float a, int d, float v):Capteur(a, d, v){
+	cout <<"Capteur humidite initialise"<<endl;
+}
+
+  
+float AnalogSensorHumidity::Get_val(){
+		float toreturn;
+		toreturn = Capteur::Get_val();
+		cout <<"Valeur mesure humidite" <<endl;
+		return toreturn;
+  }
+  
+  
+  virtual void AnalogSensorHumidity::run(){
+	  while(1){
+	    alea=1-alea;
+	    if(ptrmem!=NULL)
+	      *ptrmem=val+alea;
+	    sleep(temps);
+	  }
+  }
+
+
+
+//////////////////////////// CLASSE CAPTEUR CO2 //////////////////////////////////////////
+
+  //constructeur
+AnalogSensorCO2::AnalogSensorCO2 (float a, int d, float v):Capteur(a, d, v){
+	cout <<"Capteur CO2 initialise"<<endl;
+}
+
+
+  // thread representant le capteur et permettant de fonctionner independamment de la board
+float AnalogSensorCO2::Get_val(){
+	float toreturn;
+	toreturn = Capteur::Get_val();
+	cout <<"Valeur mesure CO2" <<endl;
+	return toreturn;
+}
+
+virtual void AnalogSensorCO2::run(){
+	  while(1){
+	    alea=1-alea;
+	    if(ptrmem!=NULL)
+	      *ptrmem=val+alea;
+	    sleep(temps);
+	  }
+}
+
 
 //////////////////////////// CLASSE ACTIONNEUR LED //////////////////////////////////////////
 

@@ -20,9 +20,9 @@ public :
 
 
 protected :
-	float valeur_lue ; //valeur lue par le capteur
+	float val ; //valeur lue par le capteur
 	float alea ; //ecart entre les differentes valeurs mesurees
-	int delai ; //temps ecoule entre deux mesures
+	int temps ; //temps ecoule entre deux mesures
 
 	//valeurs statiques avec les valeurs de l'environnement ?
 
@@ -53,7 +53,7 @@ public:
 };
 
 
-//////////////////////////// CLASSE CAPTEUR TEMPERATURE //////////////////////////////////////////
+//////////////////////////// CLASSE CAPTEUR HUMIDITE //////////////////////////////////////////
 class AnalogSensorHumidity: public Capteur {
 
 public:
@@ -65,7 +65,16 @@ public:
 };
 
 
+//////////////////////////// CLASSE CAPTEUR CO2 //////////////////////////////////////////
+class AnalogSensorCO2: public Capteur {
 
+public:
+  //constructeur
+  AnalogSensorCO2 (float a, int d, float v);
+  // thread representant le capteur et permettant de fonctionner independamment de la board
+  float Get_val();
+  virtual void run();
+};
 
 
 

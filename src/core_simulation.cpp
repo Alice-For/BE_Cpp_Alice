@@ -89,7 +89,7 @@ bool* I2C::getVide(int addr){
   return (&vide[addr]);
 }
 
-// classe generique reprenstant un capteur/actionneur
+// classe generique representant un capteur/actionneur
 Device::Device(){
   ptrtype=NULL;
   ptrmem=NULL;
