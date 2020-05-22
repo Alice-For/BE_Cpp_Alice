@@ -6,8 +6,8 @@ int main(){
   // creation d'une board
   Board esp8266;
   // achat des senseurs et actionneurs
-  AnalogSensorTemperature temperature(DELAY,TEMP);
-  AnalogSensorLuminosity lumiere(DELAY,LUM);
+  AnalogSensorTemperature temperature(0.0,DELAY,TEMP);
+  AnalogSensorLuminosity lumiere(0.0,DELAY,LUM);
   DigitalActuatorLED led1(DELAY);
   ExternalDigitalSensorButton bouton;
   IntelligentDigitalActuatorLED led2(DELAY);

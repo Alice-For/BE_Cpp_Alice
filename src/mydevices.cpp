@@ -18,7 +18,7 @@ Capteur ::Capteur():Device(){
 	val=0;
 }
 
-Capteur ::Capteur(float a, int d, float v):Device(), alea(a), temps(d), valeur(v){
+Capteur ::Capteur(float a, int d, float v):Device(), alea(a), temps(d), val(v){
 	//valeur_lue=0;
 }
 
@@ -101,7 +101,7 @@ float AnalogSensorHumidity::Get_val(){
   }
   
   
-  virtual void AnalogSensorHumidity::run(){
+  void AnalogSensorHumidity::run(){
 	  while(1){
 	    alea=1-alea;
 	    if(ptrmem!=NULL)
@@ -128,12 +128,42 @@ float AnalogSensorCO2::Get_val(){
 	return toreturn;
 }
 
-virtual void AnalogSensorCO2::run(){
+void AnalogSensorCO2::run(){
 	  while(1){
 	    alea=1-alea;
 	    if(ptrmem!=NULL)
 	      *ptrmem=val+alea;
 	    sleep(temps);
+	  }
+}
+
+///////////////////////////// CLASSE ACTIONNEUR //////////////////////////////////////////////
+
+Actionneur ::Actionneur():Device(){
+	temps=1;
+	cout <<"Actionneur initialise"<<endl;
+}
+
+Actionneur ::Actionneur (int d):Device(){
+	temps=d;
+	cout <<"Actionneur initialise - constructeur bis" <<endl;
+}
+
+/////////////////////////CLASSE LED /////////////////////////////////////////////
+
+LED::LED(int t):Actionneur(), temps(t), state(LOW){
+}
+
+void LED::run(){
+	
+	while(1){
+	  if(ptrmem!=NULL)
+	    state=*ptrmem;
+	  if (state==LOW)
+	    cout << "((((eteint))))\n";
+	  else
+	  cout << "((((allume))))\n";
+	  sleep(temps);
 	  }
 }
 

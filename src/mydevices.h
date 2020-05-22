@@ -12,6 +12,13 @@
 
 //////////////////////////// CLASSE CAPTEUR //////////////////////////////////////////
 class Capteur : public Device{
+
+protected :
+	float alea ; //ecart entre les differentes valeurs mesurees
+	int temps ; //temps ecoule entre deux mesures
+	float val ; //valeur lue par le capteur
+
+	
 public :
 	Capteur();
 	Capteur(float a, int d, float v);
@@ -19,10 +26,7 @@ public :
 	void Set_val(float v) ; //sorte de reset
 
 
-protected :
-	float val ; //valeur lue par le capteur
-	float alea ; //ecart entre les differentes valeurs mesurees
-	int temps ; //temps ecoule entre deux mesures
+
 
 	//valeurs statiques avec les valeurs de l'environnement ?
 
@@ -78,8 +82,93 @@ public:
 
 
 
+////////////////////////////CLASSE ACTIONNEUR ///////////////////////////////////////////////
+class Actionneur : public Device {
+protected :
+	
+	int temps;
+	
+public :
+	Actionneur();
+	Actionneur (int d);
+};
+
+////////////////////////////CLASSE LED /////////////////////////////////////////////
+class LED: public Actionneur {
+private:
+  // etat de la LED
+  int state;
+
+  
+public:
+    // initialisation du temps de rafraichiisement
+  LED(int t);
+  // thread representant l'actionneur et permettant de fonctionner independamment de la board
+  virtual void run();
+  
+  float read_lum();
+  
+  void set_lum(float v);
+  
+  void main();
+};
+
+////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
+class Moteur: public Actionneur{
+protected :
+	int speed;
+	int position;
+	
+public :
+	Moteur();
+	virtual void run();
+	int read_speed();
+	int read_position();
+	
+};
 
 
+/////////////////////////////CLASSE VENTILATEUR //////////////////////////////////////////////////
+//Ici la position n'est pas pertinente,on ne regarde que la vitesse
+class Ventilateur : public Moteur{
+	virtual void run();
+	Ventilateur();
+	void Write_speed(int sp);
+	void main();
+};
+
+
+/////////////////////////////CLASSE CHAUFFAGE //////////////////////////////////////////////////
+//Ici la position n'est pas pertinente,on ne regarde que la vitesse
+class Chauffage : public Moteur{
+	virtual void run();
+	Chauffage();
+	void Write_speed(int sp);
+	void main();
+};
+
+/////////////////////////////CLASSE ARROSAGE //////////////////////////////////////////////////
+//Ici la vitesse n'est pas pertinente,on ne regarde que la position
+class Arrosage : public Moteur{
+	virtual void run();
+	Arrosage();
+	void Write_pos(int sp);
+	void main();
+};
+
+
+/////////////////////////////CLASSE OUVERTURE FENETRE //////////////////////////////////////////////////
+//Ici la vitesse n'est pas pertinente,on ne regarde que la position
+class Moteur_Fenetre : public Moteur{
+	virtual void run();
+	Moteur_Fenetre();
+	void Write_pos(int sp);
+	void main();
+};
+
+
+
+////////////////////////////EXEMPLES D'ACTUATORS /////////////////////////////////////////////
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
 class DigitalActuatorLED: public Device {
 private:
