@@ -1,5 +1,6 @@
 
 #include "mydevices.h"
+#include "environnement.h"
 
 using namespace std;
 
@@ -148,13 +149,45 @@ Actionneur ::Actionneur (int d):Device(){
 	temps=d;
 	cout <<"Actionneur initialise - constructeur bis" <<endl;
 }
+///////////////////////////CLASSE ARROSAGE //////////////////////////////////////////
 
-/////////////////////////CLASSE LED /////////////////////////////////////////////
 
-LED::LED(int t):Actionneur(), temps(t), state(LOW){
+	Arrosage::Arrosage(int d):Actionneur(d){
+	}
+	
+	void Arrosage::run(){
+		while(1){
+		  if(ptrmem!=NULL)
+		    state=*ptrmem;
+		  if (state==LOW)
+		    cout << "----- Arrosage eteint ------\n";
+		  else
+		  cout << "----- Arrosage allume ------\n";
+		  sleep(temps);
+		  }
+	}
+	//void set_humidite(float hum){}
+	
+	float Arrosage::read_humidite(){
+		float toreturn = Environnement :: humidity;
+		float toreturn2 = AnalogSensorHumidity::Get_val();
+		return toreturn;		
+	}
+	
+	int Arrosage::main(){
+		return 0;
+	}
+	
+
+
+
+
+/////////////////////////CLASSE LAMPE /////////////////////////////////////////////
+
+Lampe::Lampe(int t):Actionneur(t), state(LOW){
 }
 
-void LED::run(){
+void Lampe::run(){
 	
 	while(1){
 	  if(ptrmem!=NULL)
@@ -168,22 +201,24 @@ void LED::run(){
 }
 
   
-  float LED::read_lum(){
+  float Lampe::read_lum(){
 	  float toreturn = Environnement :: luminosity;
-	  float torturn2 = AnalogSensorLuminosity::Get_Val();
+	  float toreturn2 = AnalogSensorLuminosity::Get_val();
 	  return toreturn;
   } 
   
   //void LED::set_lum(float v); // a ecrire
   
-  void LED::Allumer(){
+  void Lampe::Allumer(){
 	  state=HIGH;
   }
-  void LED::Eteindre(){
+  void Lampe::Eteindre(){
 	  state=LOW;
   }
   
-  void LED::main(); // a ecrire
+  int Lampe::main(){
+	  return 0;
+  } // a ecrire
 
 
 ////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
@@ -231,7 +266,9 @@ void LED::run(){
 		speed = sp;
 		//a faire plus tard : fonction de saisie au clavier
 	} 
-	void Ventilateur ::main(){} // a ecrire
+	int Ventilateur ::main(){
+		return 0;
+	} // a ecrire
 
 
 
@@ -252,35 +289,67 @@ void LED::run(){
 		  }	
 	}
 	
-	Chauffage::Chauffage()(int d): Moteur(d){
+	Chauffage::Chauffage(int d): Moteur(d){
 		cout <<"chauffage initialise"<<endl;
 	} 
 	
 	void Chauffage ::Write_speed(int sp){
 		speed=sp;
 	} 
-	void Chauffage ::main(){} // a ecrire
+	int Chauffage ::main(){
+		return 0;
+	} // a ecrire
 	
-
-/////////////////////////////CLASSE ARROSAGE //////////////////////////////////////////////////
-//Ici la vitesse n'est pas pertinente,on ne regarde que la position
-
-	void Arrosage::run(){} // a ecrire
-	Arrosage::Arrosage(){} // a ecrire
-	void Arrosage::Write_pos(int sp){} // a ecrire
-	void Arrosage ::main(){} // a ecrire
-
 
 
 /////////////////////////////CLASSE OUVERTURE FENETRE //////////////////////////////////////////////////
 //Ici la vitesse n'est pas pertinente,on ne regarde que la position
 
-	void Moteur_Fenetre::run(){} // a ecrire
-	Moteur_Fenetre::Moteur_Fenetre(){} // a ecrire
-	void Moteur_Fenetre::Write_pos(int sp){} // a ecrire
-	void Moteur_Fenetre ::main(){} // a ecrire
+	MoteurFenetre::MoteurFenetre(int d):Moteur(d){} 
+	
+	void MoteurFenetre::run(){
+		while(1){
+		  if(ptrmem!=NULL)
+			position=*ptrmem;
+		  if (position==0)
+			cout << "---- Chauffage eteint -----\n";
+		  else
+		  cout << "---- Chauffage allume-------\n";
+		  cout<<"---- Chauffage : vitesse "<< speed << endl;
+		  sleep(temps);
+		  }
+	}
+	
+	
+	
+	void MoteurFenetre::Write_pos(int p){
+		position=p;
+	} 
+	
+	
+	int MoteurFenetre ::main(){
+		return 0;
+	} // a ecrire
 
-
+	
+	void MoteurFenetre::Ouvrir_fenetre(){
+		int pos=0;
+	for (pos = 0; pos <= 50; pos += 1) // goes from 0 degrees to 180 degrees in steps of 1 degree
+	{
+		Write_pos(pos); // tell servo to go to position in variable 'pos'
+		sleep(1);
+		}
+	}
+	
+	
+	void MoteurFenetre::Fermer_fenetre(){
+		int pos=50;
+		for (pos = 50; pos >= 0; pos -= 1)
+		{
+			Write_pos(pos); // tell servo to go to position in variable 'pos'
+			sleep(1);
+		}
+	}	
 
 
 

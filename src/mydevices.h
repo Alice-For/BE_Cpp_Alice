@@ -95,16 +95,20 @@ public :
 
 ////////////////////////////CLASSE ARROSAGE////////////////////////////////////////
 class Arrosage: public Actionneur{
-	
+private :
 	int state;
+public :
+	Arrosage(int d);
+	virtual void run();
+	void set_humidite(float hum);
+	float read_humidite();
+	int main();
 	
-	
-	
-}
+};
 
 
-////////////////////////////CLASSE LED /////////////////////////////////////////////
-class LED: public Actionneur {
+////////////////////////////CLASSE LAMPE /////////////////////////////////////////////
+class Lampe: public Actionneur {
 private:
   // etat de la LED
   int state;
@@ -112,7 +116,7 @@ private:
   
 public:
     // initialisation du temps de rafraichissement
-  LED(int t);
+  Lampe (int t);
   // thread representant l'actionneur et permettant de fonctionner independamment de la board
   virtual void run();
   
@@ -123,7 +127,7 @@ public:
   
   //void set_lum(float v);
   
-  void main();
+  int main();
 };
 
 ////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
@@ -147,7 +151,7 @@ class Ventilateur : public Moteur{
 	virtual void run();
 	Ventilateur(int d);
 	void Write_speed(int sp);
-	void main();
+	int main();
 };
 
 
@@ -157,18 +161,23 @@ class Chauffage : public Moteur{
 	virtual void run();
 	Chauffage(int d);
 	void Write_speed(int sp);
-	void main();
+	int main();
 };
 
 
 
 /////////////////////////////CLASSE OUVERTURE FENETRE //////////////////////////////////////////////////
 //Ici la vitesse n'est pas pertinente,on ne regarde que la position
-class Moteur_Fenetre : public Moteur{
+class MoteurFenetre : public Moteur{
+public :
+	MoteurFenetre(int d);
+	
 	virtual void run();
-	Moteur_Fenetre();
-	void Write_pos(int sp);
-	void main();
+	
+	void Write_pos(int p);
+	int main();
+	void Ouvrir_fenetre();
+	void Fermer_fenetre();
 };
 
 

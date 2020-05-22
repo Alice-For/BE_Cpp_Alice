@@ -16,10 +16,12 @@ public :
 	float CO2;
 	float humidity;
 	
-	void Get_lum();
-	void Get_temp();
-	void Get_CO2();
-	void Get_hum();
+	Environnement();
+	
+	float Get_lum();
+	float Get_temp();
+	float Get_CO2();
+	float Get_hum();
 };
 
 class Plante{
@@ -29,7 +31,7 @@ public :
 	bool NeedsLight();
 	bool NeedsMoreCO2(); //et faire une fonction NeedsLessCO2() aussi ?
 	bool NeedsHeat(); 	//faire une fonction NeedsFreshness aussi ? Ou alors 3 valeurs retournees ?
-}
+};
 
 
 

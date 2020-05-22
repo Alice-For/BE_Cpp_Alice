@@ -46,6 +46,8 @@ void Board::loop(){
     cpt++;
     sleep(1);
   }
+  //minuteur arrosage a tester. Si arrive a expiration, arreter l'arrosage
+  
 // on eteint et on allume la LED
   
   /*
