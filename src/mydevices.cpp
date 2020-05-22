@@ -167,6 +167,67 @@ void LED::run(){
 	  }
 }
 
+  
+  float LED::read_lum(); // a ecrire
+  
+  void LED::set_lum(float v); // a ecrire
+  
+  void LED::main(); // a ecrire
+
+
+////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
+
+	Moteur ::Moteur(){} // a ecrire
+	void Moteur ::run(){} // a ecrire
+	int Moteur :: read_speed(){} // a ecrire
+	int Moteur :: read_position(){} // a ecrire
+	
+
+
+
+/////////////////////////////CLASSE VENTILATEUR //////////////////////////////////////////////////
+//Ici la position n'est pas pertinente,on ne regarde que la vitesse
+
+	void Ventilateur ::run(){}  // a ecrire
+	Ventilateur ::Ventilateur(){} // a ecrire
+	void Ventilateur ::Write_speed(int sp){} // a ecrire
+	void Ventilateur ::main(){} // a ecrire
+
+
+
+/////////////////////////////CLASSE CHAUFFAGE //////////////////////////////////////////////////
+	
+	void Chauffage ::run(){}  // a ecrire
+	Chauffage ::Chauffage(){} // a ecrire
+	void Chauffage ::Write_speed(int sp){} // a ecrire
+	void Chauffage ::main(){} // a ecrire
+	
+
+/////////////////////////////CLASSE ARROSAGE //////////////////////////////////////////////////
+//Ici la vitesse n'est pas pertinente,on ne regarde que la position
+
+	void Arrosage::run(){} // a ecrire
+	Arrosage::Arrosage(){} // a ecrire
+	void Arrosage::Write_pos(int sp){} // a ecrire
+	void Arrosage ::main(){} // a ecrire
+
+
+
+/////////////////////////////CLASSE OUVERTURE FENETRE //////////////////////////////////////////////////
+//Ici la vitesse n'est pas pertinente,on ne regarde que la position
+
+	void Moteur_Fenetre::run(){} // a ecrire
+	Moteur_Fenetre::Moteur_Fenetre(){} // a ecrire
+	void Moteur_Fenetre::Write_pos(int sp){} // a ecrire
+	void Moteur_Fenetre ::main(){} // a ecrire
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////// CLASSE ACTIONNEUR LED //////////////////////////////////////////
 
@@ -250,8 +311,4 @@ void ExternalDigitalSensorButton ::run(){
 		
 		
 	}
-	
 }
-
-
-
