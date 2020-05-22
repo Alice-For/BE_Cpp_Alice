@@ -15,6 +15,11 @@ public :
 	float temperature;
 	float CO2;
 	float humidity;
+	
+	void Get_lum();
+	void Get_temp();
+	void Get_CO2();
+	void Get_hum();
 };
 
 class Plante{

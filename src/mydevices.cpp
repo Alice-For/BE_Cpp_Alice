@@ -168,19 +168,39 @@ void LED::run(){
 }
 
   
-  float LED::read_lum(); // a ecrire
+  float LED::read_lum(){
+	  float toreturn = Environnement :: luminosity;
+	  float torturn2 = AnalogSensorLuminosity::Get_Val();
+	  return toreturn;
+  } 
   
-  void LED::set_lum(float v); // a ecrire
+  //void LED::set_lum(float v); // a ecrire
+  
+  void LED::Allumer(){
+	  state=HIGH;
+  }
+  void LED::Eteindre(){
+	  state=LOW;
+  }
   
   void LED::main(); // a ecrire
 
 
 ////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
 
-	Moteur ::Moteur(){} // a ecrire
-	void Moteur ::run(){} // a ecrire
-	int Moteur :: read_speed(){} // a ecrire
-	int Moteur :: read_position(){} // a ecrire
+	Moteur ::Moteur(int d):Actionneur(d){
+		speed=0;
+		position=0;
+		cout <<"moteur initialise"<<endl;
+		
+	} 
+	
+	int Moteur :: read_speed(){
+		return speed;		//0 -> arrete ET 10 -> vitesse max
+	} 
+	int Moteur :: read_position(){
+		return position;	//0 position de base = 360 degres. 
+	} 
 	
 
 
@@ -188,18 +208,57 @@ void LED::run(){
 /////////////////////////////CLASSE VENTILATEUR //////////////////////////////////////////////////
 //Ici la position n'est pas pertinente,on ne regarde que la vitesse
 
-	void Ventilateur ::run(){}  // a ecrire
-	Ventilateur ::Ventilateur(){} // a ecrire
-	void Ventilateur ::Write_speed(int sp){} // a ecrire
+	void Ventilateur ::run(){
+
+	while(1){
+		  if(ptrmem!=NULL)
+			speed=*ptrmem;
+		  if (speed==0)
+			cout << "---- Ventilateur eteint -----\n";
+		  else
+		  cout << "---- Ventilateur allume-------\n";
+		  cout<<"---- Ventilateur vitesse "<< speed << endl;
+		  sleep(temps);
+		  }
+
+	} 
+	Ventilateur ::Ventilateur(int d): Moteur(d){
+		cout <<"ventilateur initialise"<<endl;
+	} 
+	
+	
+	void Ventilateur ::Write_speed(int sp){
+		speed = sp;
+		//a faire plus tard : fonction de saisie au clavier
+	} 
 	void Ventilateur ::main(){} // a ecrire
 
 
 
 /////////////////////////////CLASSE CHAUFFAGE //////////////////////////////////////////////////
 	
-	void Chauffage ::run(){}  // a ecrire
-	Chauffage ::Chauffage(){} // a ecrire
-	void Chauffage ::Write_speed(int sp){} // a ecrire
+	void Chauffage ::run(){
+		
+
+	while(1){
+		  if(ptrmem!=NULL)
+			speed=*ptrmem;
+		  if (speed==0)
+			cout << "---- Chauffage eteint -----\n";
+		  else
+		  cout << "---- Chauffage allume-------\n";
+		  cout<<"---- Chauffage : vitesse "<< speed << endl;
+		  sleep(temps);
+		  }	
+	}
+	
+	Chauffage::Chauffage()(int d): Moteur(d){
+		cout <<"chauffage initialise"<<endl;
+	} 
+	
+	void Chauffage ::Write_speed(int sp){
+		speed=sp;
+	} 
 	void Chauffage ::main(){} // a ecrire
 	
 

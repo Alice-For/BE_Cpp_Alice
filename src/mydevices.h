@@ -93,6 +93,16 @@ public :
 	Actionneur (int d);
 };
 
+////////////////////////////CLASSE ARROSAGE////////////////////////////////////////
+class Arrosage: public Actionneur{
+	
+	int state;
+	
+	
+	
+}
+
+
 ////////////////////////////CLASSE LED /////////////////////////////////////////////
 class LED: public Actionneur {
 private:
@@ -101,14 +111,17 @@ private:
 
   
 public:
-    // initialisation du temps de rafraichiisement
+    // initialisation du temps de rafraichissement
   LED(int t);
   // thread representant l'actionneur et permettant de fonctionner independamment de la board
   virtual void run();
   
+  void Allumer();
+  void Eteindre();
+  
   float read_lum();
   
-  void set_lum(float v);
+  //void set_lum(float v);
   
   void main();
 };
@@ -120,7 +133,7 @@ protected :
 	int position;
 	
 public :
-	Moteur();
+	Moteur(int d);
 	virtual void run();
 	int read_speed();
 	int read_position();
@@ -132,7 +145,7 @@ public :
 //Ici la position n'est pas pertinente,on ne regarde que la vitesse
 class Ventilateur : public Moteur{
 	virtual void run();
-	Ventilateur();
+	Ventilateur(int d);
 	void Write_speed(int sp);
 	void main();
 };
@@ -142,19 +155,11 @@ class Ventilateur : public Moteur{
 //Ici la position n'est pas pertinente,on ne regarde que la vitesse
 class Chauffage : public Moteur{
 	virtual void run();
-	Chauffage();
+	Chauffage(int d);
 	void Write_speed(int sp);
 	void main();
 };
 
-/////////////////////////////CLASSE ARROSAGE //////////////////////////////////////////////////
-//Ici la vitesse n'est pas pertinente,on ne regarde que la position
-class Arrosage : public Moteur{
-	virtual void run();
-	Arrosage();
-	void Write_pos(int sp);
-	void main();
-};
 
 
 /////////////////////////////CLASSE OUVERTURE FENETRE //////////////////////////////////////////////////
