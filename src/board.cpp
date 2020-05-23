@@ -9,9 +9,11 @@ int main(){
   // achat des senseurs et actionneurs
   AnalogSensorTemperature temperature(0.0,DELAY,TEMP);
   AnalogSensorLuminosity lumiere(0.0,DELAY,LUM);
-  //DigitalActuatorLED led1(DELAY);
-  //ExternalDigitalSensorButton bouton;
-  //IntelligentDigitalActuatorLED led2(DELAY);
+  AnalogSensorHumidity humidite(0.0,DELAY, HUM);
+  AnalogSensorCO2 dioxyde(0.0,DELAY, DIOX);
+  
+  
+
   I2CActuatorScreen screen;
   
   // branchement des capteurs actionneurs

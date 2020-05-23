@@ -168,11 +168,13 @@ Actionneur ::Actionneur (int d):Device(){
 	}
 	//void set_humidite(float hum){}
 	
+	/*
 	float Arrosage::read_humidite(){
+		//AnalogSensorHumidity hum = new AnalogSensorHumidity(0.0, 1, 0.4);
 		float toreturn = Environnement :: humidity;
-		float toreturn2 = AnalogSensorHumidity::Get_val();
+		//float toreturn2 = hum.Get_val();
 		return toreturn;		
-	}
+	}*/
 	
 	int Arrosage::main(){
 		return 0;
@@ -201,11 +203,11 @@ void Lampe::run(){
 }
 
   
-  float Lampe::read_lum(){
+  /*float Lampe::read_lum(){
 	  float toreturn = Environnement :: luminosity;
-	  float toreturn2 = AnalogSensorLuminosity::Get_val();
+	  //float toreturn2 = AnalogSensorLuminosity::Get_val();
 	  return toreturn;
-  } 
+  } */
   
   //void LED::set_lum(float v); // a ecrire
   

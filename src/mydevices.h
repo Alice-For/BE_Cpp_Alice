@@ -100,8 +100,8 @@ private :
 public :
 	Arrosage(int d);
 	virtual void run();
-	void set_humidite(float hum);
-	float read_humidite();
+	//void set_humidite(float hum);
+	//float read_humidite();
 	int main();
 	
 };
@@ -123,7 +123,7 @@ public:
   void Allumer();
   void Eteindre();
   
-  float read_lum();
+  //float read_lum();
   
   //void set_lum(float v);
   
