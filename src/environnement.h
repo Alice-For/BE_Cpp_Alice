@@ -9,6 +9,7 @@
 #include "core_simulation.h"
 #include "mydevices.h"
 
+
 class Environnement{
 protected :
 	static float luminosity;
@@ -20,15 +21,15 @@ public :
 		
 	Environnement();
 	
-	float Get_lum();
-	float Get_temp();
-	float Get_CO2();
-	float Get_hum();
+	static float Get_lum(void);
+	static float Get_temp(void);
+	static float Get_CO2(void);
+	static float Get_hum(void);
 	
-	void Set_lum(float lum);
-	void Set_temp(float temp);
-	void Set_CO2(float C);
-	void Set_hum(float hum);
+	static void Set_lum(float lum);
+	static void Set_temp(float temp);
+	static void Set_CO2(float C);
+	static void Set_hum(float hum);
 
 };
 

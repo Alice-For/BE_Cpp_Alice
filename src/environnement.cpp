@@ -4,26 +4,28 @@ using namespace std;
 
 ////////////////////////// CLASSE ENVIRONNEMENT ////////////////////////////////////////
 
-Environnement::Environnement(){
-	luminosity=15.0; //kilolux (different des lumens)
-	temperature =22.5;
-	CO2 = 0.0003;
-	humidity = 0.40; // sol = terre
-}
+Environnement::Environnement(){}
 
-float Environnement::Get_lum(){	
+//initialisation des variables statiques
+float Environnement::luminosity = 15.0; //kilolux (different des lumens)
+float Environnement::temperature = 22.5;
+float Environnement::CO2 = 0.0003;
+float Environnement::humidity=0.40;
+
+
+float Environnement::Get_lum(void){	
 	return luminosity;
 }
 
-float Environnement::Get_CO2(){	
+float Environnement::Get_CO2(void){	
 	return CO2;
 }
 
-float Environnement::Get_hum(){	
+float Environnement::Get_hum(void){	
 	return humidity;
 }
 
-float Environnement::Get_temp(){
+float Environnement::Get_temp(void){
 	return temperature;
 }
 

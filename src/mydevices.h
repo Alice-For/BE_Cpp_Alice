@@ -9,41 +9,36 @@
 #include "core_simulation.h"
 #include "environnement.h"
 
-//int global luminosite_environnement=LUM;
+
 
 //////////////////////////// CLASSE CAPTEUR //////////////////////////////////////////
 class Capteur : public Device{
 
 protected :
-	float alea ; //ecart entre les differentes valeurs mesurees
+	//float alea ; //ecart entre les differentes valeurs mesurees
 	int temps ; //temps ecoule entre deux mesures
 	float val ; //valeur lue par le capteur
 
 	
 public :
 	Capteur();
-	Capteur(float a, int d, float v);
-	float Get_val();
-	void Set_val(float v) ; //sorte de reset
+	Capteur(int d, float v);
+	//float Get_val();
+	//void Set_val(float v) ; //sorte de reset
 
-
-
-
-	//valeurs statiques avec les valeurs de l'environnement ?
 
 };
 //////////////////////////// CLASSE CAPTEUR DE LUMINOSITE //////////////////////////////////////////
 class AnalogSensorLuminosity: public Capteur {
 public :
-	AnalogSensorLuminosity(float a, int d, float v);
-	//int static luminosite_environnement;
-	float Get_val();
+	AnalogSensorLuminosity(int d, float v);
+	//float Get_val();
 	
 	virtual void run();
 			
 	
 };
-//int AnalogSensorLuminosity::luminosite_environnement=LUM;
+
 
 
 //////////////////////////// CLASSE CAPTEUR TEMPERATURE //////////////////////////////////////////
@@ -51,8 +46,8 @@ class AnalogSensorTemperature: public Capteur {
   
 public:
   //constructeur
-  AnalogSensorTemperature(float a, int d, float v);
-  float Get_val();
+  AnalogSensorTemperature(int d, float v);
+  //float Get_val();
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
@@ -63,9 +58,9 @@ class AnalogSensorHumidity: public Capteur {
 
 public:
   //constructeur
-  AnalogSensorHumidity (float a, int d, float v);
+  AnalogSensorHumidity (int d, float v);
   // thread representant le capteur et permettant de fonctionner independamment de la board
-  float Get_val();
+  //float Get_val();
   virtual void run();
 };
 
@@ -75,11 +70,12 @@ class AnalogSensorCO2: public Capteur {
 
 public:
   //constructeur
-  AnalogSensorCO2 (float a, int d, float v);
+  AnalogSensorCO2 (int d, float v);
   // thread representant le capteur et permettant de fonctionner independamment de la board
-  float Get_val();
+  //float Get_val();
   virtual void run();
 };
+
 
 
 
@@ -139,7 +135,7 @@ protected :
 	
 public :
 	Moteur(int d);
-	virtual void run();
+	virtual void run()=0;
 	int read_speed();
 	int read_position();
 	

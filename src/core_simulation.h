@@ -1,6 +1,8 @@
 #ifndef CORE_SIMULATEUR_H
 #define CORE_SIMULATEUR_H
 
+
+
 // sleep() also under windows
 #ifdef __unix__
 # include <unistd.h>
@@ -13,6 +15,7 @@
 #include <string>
 #include <thread>
 #include <mutex>
+
 
 #define DELAY 3
 #define TEMP 22.5

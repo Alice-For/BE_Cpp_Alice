@@ -7,6 +7,7 @@
 #include "mydevices.h"
 #include "environnement.h"
 
+
 // class BoardException
 int BoardException::get(){return num;}
 

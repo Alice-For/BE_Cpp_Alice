@@ -3,21 +3,22 @@
 #include "mydevices.h"
 #include "environnement.h"
 
+
 // la fonction d'initialisation d'arduino
 void Board::setup(){
   // on configure la vitesse de la liaison
   Serial.begin(9600);
 // on fixe les pin en entree et en sortie en fonction des capteurs/actionneurs mis sur la carte
   pinMode(1,INPUT);
-  pinMode(0,INPUT);
-  pinMode(2,INPUT);
-  pinMode(3,INPUT);
+  //pinMode(0,INPUT);
+  //pinMode(2,INPUT);
+  //pinMode(3,INPUT);
   
-  pinMode(4,OUTPUT);
+  //pinMode(4,OUTPUT);
   pinMode(5,OUTPUT);
   pinMode(6,OUTPUT);
-  pinMode(7,OUTPUT);
-  pinMode(8,OUTPUT);
+  //pinMode(7,OUTPUT);
+  //pinMode(8,OUTPUT);
   
   //Ecran ??
 }
@@ -35,29 +36,29 @@ void Board::loop(){
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
     val_t=analogRead(1);
-    val_h=analogRead(0);
-    val_l=analogRead(2);
-    val_c=analogRead(3);
+    //val_h=analogRead(0);
+    //val_l=analogRead(2);
+    //val_c=analogRead(3);
     
     sprintf(buf,"temperature %f",val_t);
-    sprintf(buf2,"luminosite %f",val_l);
-    sprintf(buf3,"humidite %f",val_h);
-    sprintf(buf4,"CO2 %f",val_c);
+    //sprintf(buf2,"luminosite %f",val_l);
+    //sprintf(buf3,"humidite %f",val_h);
+    //sprintf(buf4,"CO2 %f",val_c);
     
     Serial.println(buf);
-    Serial.println(buf2);
-    Serial.println(buf3);
-    Serial.println(buf4);
+    //Serial.println(buf2);
+    //Serial.println(buf3);
+    //Serial.println(buf4);
     
-    appartement.Set_lum(val_l);
+    //appartement.Set_lum(val_l);
     appartement.Set_temp(val_t);
-    appartement.Set_CO2(val_c);
-    appartement.Set_hum(val_h);
+    //appartement.Set_CO2(val_c);
+    //appartement.Set_hum(val_h);
     
-	cactus.Set_lum(val_l);
+	//cactus.Set_lum(val_l);
     cactus.Set_temp(val_t);
-    cactus.Set_CO2(val_c);
-    cactus.Set_hum(val_h);
+    //cactus.Set_CO2(val_c);
+    //cactus.Set_hum(val_h);
     
     if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature
@@ -65,7 +66,7 @@ void Board::loop(){
       bus.write(1,buf,100);
     }
     
-    
+    /*
     if(cpt%5==1){
         // tous les 5 fois on affiche sur l ecran la luminosite  
     	sprintf(buf2,"%f",val_l);
@@ -82,7 +83,7 @@ void Board::loop(){
         // tous les 5 fois on affiche sur l ecran la luminosite  
     	sprintf(buf4,"%f",val_c);
         bus.write(1,buf4,100);
-        }
+        }*/
     
     cpt++;
     sleep(1);
