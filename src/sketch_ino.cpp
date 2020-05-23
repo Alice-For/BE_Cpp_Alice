@@ -30,17 +30,19 @@ void Board::loop(){
   char buf[100], buf2[100], buf3[100], buf4[100];
   float val_t, val_h, val_l, val_c;
   static int cpt=0;
-  //static int bascule=0;
+  analogWrite(5, 0); //initialiser les actionneurs a 0, sinon ils font n'importe quoi :(
+  analogWrite(6, 0);
   
   int i=0;
   for(i=0;i<10;i++){
-    // lecture sur la pin 1 : capteur de temperature
     val_t=analogRead(1);
     //val_h=analogRead(0);
     //val_l=analogRead(2);
     //val_c=analogRead(3);
+    analogWrite(5, 1); //chauffage a 1
+    analogWrite(6, 0); //ventilateur a 0
     
-    sprintf(buf,"temperature %f",val_t);
+    sprintf(buf,"temperature %f",val_t); //temp doit augmenter avec le chauffage
     //sprintf(buf2,"luminosite %f",val_l);
     //sprintf(buf3,"humidite %f",val_h);
     //sprintf(buf4,"CO2 %f",val_c);
@@ -50,19 +52,19 @@ void Board::loop(){
     //Serial.println(buf3);
     //Serial.println(buf4);
     
-    //appartement.Set_lum(val_l);
-    appartement.Set_temp(val_t);
+    //appartement.Set_lum(val_l); //ne pas utiliser, car deja modifie par run() du chauffage ou du ventilateur
+    //appartement.Set_temp(val_t);
     //appartement.Set_CO2(val_c);
     //appartement.Set_hum(val_h);
     
 	//cactus.Set_lum(val_l);
-    cactus.Set_temp(val_t);
+    //cactus.Set_temp(val_t);
     //cactus.Set_CO2(val_c);
     //cactus.Set_hum(val_h);
     
     if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature
-      sprintf(buf,"%f",val_t);
+      sprintf(buf,"Temperature : %f",val_t);
       bus.write(1,buf,100);
     }
     
@@ -93,19 +95,6 @@ void Board::loop(){
   
   //minuteur arrosage a tester. Si arrive a expiration, arreter l'arrosage
   
-
-  
-
-  
-/*  if(boutton.DetectButton()) {
-	  digitalWrite(3,HIGH);
-	  cout <<"LED on"<<endl;
-  }
-  else{
-    digitalWrite(3,LOW);
-    cout<<"LED off"<<endl;
-  }*/
-
   
 }
 

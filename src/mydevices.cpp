@@ -18,9 +18,11 @@ Capteur ::Capteur():Device(){
 	//alea=0;
 	temps=1;
 	val=0;
+	ptrmem=0;
 }
 
 Capteur ::Capteur(int d, float v):Device(), temps(d), val(v){
+	ptrmem=0;
 }
 
 /*
@@ -234,7 +236,9 @@ void Lampe::run(){
 Moteur::Moteur(int d):Actionneur(d){
 	speed=0;
 	position=0;
-	cout <<"moteur initialise"<<endl;
+	//cout <<"moteur initialise"<<endl;
+	//cout <<"vitesse initiale : "<<speed<<endl;
+	//cout <<"position initiale : "<<position<<endl;
 }
 	
 	int Moteur :: read_speed(){
@@ -257,7 +261,7 @@ Moteur::Moteur(int d):Actionneur(d){
 			speed=*ptrmem;
 		  if (speed==0){
 			  cout << "---- Ventilateur eteint -----\n";
-			  Environnement::Set_temp(22.5);
+			  //Environnement::Set_temp(22.5);
 		  }
 					  
 		  else {
@@ -285,13 +289,20 @@ Moteur::Moteur(int d):Actionneur(d){
 
 
 /////////////////////////////CLASSE CHAUFFAGE //////////////////////////////////////////////////
+
 	
+	Chauffage::Chauffage(int d): Moteur(d){
+		cout <<"chauffage initialise"<<endl;
+	} 
+
 	void Chauffage ::run(){
 		
 
 	while(1){
+		cout <<"chauffage run 1 : speed vaut "<<speed<<endl;
 		  if(ptrmem!=NULL)
 			speed=*ptrmem;
+		  cout <<"chauffage run 2 : speed vaut "<<speed<<endl;
 		  if (speed==0) {
 			  cout << "---- Chauffage eteint -----\n";
 			  Environnement::Set_temp(22.5);
@@ -305,9 +316,6 @@ Moteur::Moteur(int d):Actionneur(d){
 		  }	
 	}
 	
-	Chauffage::Chauffage(int d): Moteur(d){
-		cout <<"chauffage initialise"<<endl;
-	} 
 	
 	void Chauffage ::Write_speed(int sp){
 		speed=sp;
