@@ -153,3 +153,37 @@ Plante ::Plante(){
 	void Plante::Set_hum(float hum){
 		humidity=hum;
 	}
+	
+	
+	
+	///////////////////////////// CLASSE MY APPLICATION ///////////////////////////////////////
+	
+MyApplication::MyApplication(){
+	
+	//liste de plantes
+	//liste d'environnement
+}
+
+
+int MyApplication::main(){
+	
+	
+   /* appartement.Set_lum(val_l);
+    appartement.Set_temp(val_t);
+    appartement.Set_CO2(val_c);
+    appartement.Set_hum(val_h);
+    
+	cactus.Set_lum(val_l);
+    cactus.Set_temp(val_t);
+    cactus.Set_CO2(val_c);
+    cactus.Set_hum(val_h);*/
+    
+   // if (cactus.IsThirsty){
+    	//Lampe -> allumer ou eteindre
+		//Arrosage -> allumer ou eteindre
+		//etc
+		
+		//Modifier les valeurs d'environnement
+    	
+	return 0;
+}

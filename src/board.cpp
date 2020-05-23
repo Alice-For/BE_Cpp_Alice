@@ -12,20 +12,34 @@ int main(){
   AnalogSensorHumidity humidite(0.0,DELAY, HUM);
   AnalogSensorCO2 dioxyde(0.0,DELAY, DIOX);
   
+  MoteurFenetre turbo(DELAY);
+  Chauffage feu(DELAY);
+  Ventilateur AirFrais(DELAY);
+  Lampe Loupiote(DELAY);
+  Arrosage Tuyau(DELAY);
   
-
   I2CActuatorScreen screen;
   
-  // branchement des capteurs actionneurs
+  // branchement des capteurs
   esp8266.pin(1,temperature);
-  //esp8266.pin(0,led1);
-  esp8266.i2c(1,screen);
+  esp8266.pin(0,humidite);
   esp8266.pin(2,lumiere);
-  //esp8266.pin(3,led2);
-  //esp8266.pin(4,bouton);
+  esp8266.pin(3,dioxyde);
+  
+  // branchement des actionneurs
+  esp8266.pin(4,turbo);
+  esp8266.pin(5,feu);
+  esp8266.pin(6,AirFrais);
+  esp8266.pin(7,Loupiote);
+  esp8266.pin(8,Tuyau);
+  
+  esp8266.i2c(1,screen);
+  Environnement appartement;
+  Plante cactus;
   
   // allumage de la carte
   esp8266.run();
+  //Destructeurs a appeler ?
   return 0;
 }
 

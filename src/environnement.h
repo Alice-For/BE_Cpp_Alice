@@ -59,7 +59,11 @@ public :
 };
 
 
-
+class MyApplication{
+public :
+	MyApplication();
+	int main();
+};
 
 
 

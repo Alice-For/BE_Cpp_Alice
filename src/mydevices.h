@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "core_simulation.h"
+#include "environnement.h"
 
 //int global luminosite_environnement=LUM;
 
@@ -148,6 +149,7 @@ public :
 /////////////////////////////CLASSE VENTILATEUR //////////////////////////////////////////////////
 //Ici la position n'est pas pertinente,on ne regarde que la vitesse
 class Ventilateur : public Moteur{
+public :
 	virtual void run();
 	Ventilateur(int d);
 	void Write_speed(int sp);
@@ -158,6 +160,7 @@ class Ventilateur : public Moteur{
 /////////////////////////////CLASSE CHAUFFAGE //////////////////////////////////////////////////
 //Ici la position n'est pas pertinente,on ne regarde que la vitesse
 class Chauffage : public Moteur{
+public :
 	virtual void run();
 	Chauffage(int d);
 	void Write_speed(int sp);

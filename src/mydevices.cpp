@@ -5,10 +5,10 @@
 using namespace std;
 
 //variables d'environnement
-int luminosite_environnement=200;
-int bouton_app=0;
-
-
+float luminosity=15.0; //kilolux (different des lumens)
+float temperature =22.5;
+float CO2 = 0.0003;
+float humidity = 0.40;
 
 
 //////////////////////////// CLASSE CAPTEUR //////////////////////////////////////////
@@ -51,16 +51,11 @@ void AnalogSensorLuminosity::run(){
   while(1){
     //alea=1-alea;
     if(ptrmem!=NULL)
-      *ptrmem=luminosite_environnement; //+alea;
+      *ptrmem=luminosity; //+alea;
     sleep(temps);
   }
 }
-/*
-int AnalogSensorLuminosity::LE(){
-	int lum=luminosite_environnement;
-	return lum;		
-}
-*/
+
 
 //////////////////////////// CLASSE CAPTEUR TEMPERATURE //////////////////////////////////////////
 
@@ -159,10 +154,15 @@ Actionneur ::Actionneur (int d):Device(){
 		while(1){
 		  if(ptrmem!=NULL)
 		    state=*ptrmem;
-		  if (state==LOW)
+		  if (state==LOW){
 		    cout << "----- Arrosage eteint ------\n";
-		  else
-		  cout << "----- Arrosage allume ------\n";
+		    humidity=0.4;
+		  }
+		  		  
+		  else {
+			  cout << "----- Arrosage allume ------\n";
+			  humidity=0.6;
+		  }
 		  sleep(temps);
 		  }
 	}
@@ -194,10 +194,14 @@ void Lampe::run(){
 	while(1){
 	  if(ptrmem!=NULL)
 	    state=*ptrmem;
-	  if (state==LOW)
-	    cout << "((((eteint))))\n";
-	  else
-	  cout << "((((allume))))\n";
+	  if (state==LOW){
+		  cout << "((((eteint))))\n";
+	  	  luminosity=15.0;
+	  }
+	  else {
+		  cout << "((((allume))))\n";
+		  luminosity=17.0;
+	  }
 	  sleep(temps);
 	  }
 }
@@ -225,12 +229,11 @@ void Lampe::run(){
 
 ////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
 
-	Moteur ::Moteur(int d):Actionneur(d){
-		speed=0;
-		position=0;
-		cout <<"moteur initialise"<<endl;
-		
-	} 
+Moteur::Moteur(int d):Actionneur(d){
+	speed=0;
+	position=0;
+	cout <<"moteur initialise"<<endl;
+}
 	
 	int Moteur :: read_speed(){
 		return speed;		//0 -> arrete ET 10 -> vitesse max
@@ -250,11 +253,16 @@ void Lampe::run(){
 	while(1){
 		  if(ptrmem!=NULL)
 			speed=*ptrmem;
-		  if (speed==0)
-			cout << "---- Ventilateur eteint -----\n";
-		  else
-		  cout << "---- Ventilateur allume-------\n";
-		  cout<<"---- Ventilateur vitesse "<< speed << endl;
+		  if (speed==0){
+			  cout << "---- Ventilateur eteint -----\n";
+			  temperature=22.5;
+		  }
+					  
+		  else {
+			  cout << "---- Ventilateur allume-------\n";
+			  cout<<"---- Ventilateur vitesse "<< speed << endl;
+			  temperature=21;
+		  }
 		  sleep(temps);
 		  }
 
@@ -282,11 +290,15 @@ void Lampe::run(){
 	while(1){
 		  if(ptrmem!=NULL)
 			speed=*ptrmem;
-		  if (speed==0)
-			cout << "---- Chauffage eteint -----\n";
-		  else
-		  cout << "---- Chauffage allume-------\n";
-		  cout<<"---- Chauffage : vitesse "<< speed << endl;
+		  if (speed==0) {
+			  cout << "---- Chauffage eteint -----\n";
+		  	  temperature=22.5;
+		  }
+		  else {
+			  cout << "---- Chauffage allume-------\n";
+			  cout<<"---- Chauffage : vitesse "<< speed << endl;
+			  temperature=25;		  
+		  }
 		  sleep(temps);
 		  }	
 	}
@@ -313,13 +325,18 @@ void Lampe::run(){
 		while(1){
 		  if(ptrmem!=NULL)
 			position=*ptrmem;
-		  if (position==0)
-			cout << "---- Chauffage eteint -----\n";
-		  else
-		  cout << "---- Chauffage allume-------\n";
-		  cout<<"---- Chauffage : vitesse "<< speed << endl;
-		  sleep(temps);
+		  if (position==0){
+			  cout << "---- Fenetre fermee -----\n";
+			  humidity=0.4;
 		  }
+		  else {
+			  cout << "---- Fenetre ouverte-------\n";
+			  cout<<"---- Angle fenetre "<< position << endl;
+			  humidity=0.3;
+		  }
+		  sleep(temps);
+		}
+		
 	}
 	
 	
@@ -390,12 +407,12 @@ void IntelligentDigitalActuatorLED::run(){
 	      state=*ptrmem;
 	    if (state==LOW){
 	      cout << "((((eteint))))\n";
-	      luminosite_environnement=200;
+	      luminosity=200;
 	    }
 	    
 	    else {
 	    cout << "((((allume))))\n";
-	    luminosite_environnement=250;
+	    luminosity=250;
 	    }
 	    
 	    sleep(temps);
@@ -437,8 +454,7 @@ int ExternalDigitalSensorButton :: DetectButton(){
 
 void ExternalDigitalSensorButton ::run(){
 	while(1){
-		bouton_app= DetectButton();
-		
+			
 		
 	}
 }
