@@ -25,11 +25,11 @@ void Board::setup(){
 
 // la boucle de controle arduino
 void Board::loop(){
-	Environnement appartement ;
 	Plante cactus;
-  char buf[100], buf2[100], buf3[100], buf4[100];
-  float val_t, val_h, val_l, val_c;
+  char buf[100]; //buf2[100], buf3[100], buf4[100];
+  float val_t; // val_h, val_l, val_c;
   static int cpt=0;
+  int etat;
   analogWrite(5, 0); //initialiser les actionneurs a 0, sinon ils font n'importe quoi :(
   analogWrite(6, 0);
   
@@ -61,6 +61,14 @@ void Board::loop(){
     //cactus.Set_temp(val_t);
     //cactus.Set_CO2(val_c);
     //cactus.Set_hum(val_h);
+    etat=MyApplication::main(cactus);
+    
+    if (etat==0){ //plante morte
+        analogWrite(5, 0);
+        analogWrite(6, 0);
+    }
+    
+    //autres valeurs de etat a tester pour savoir quel actionneur modifier
     
     if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature

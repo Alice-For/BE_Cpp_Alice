@@ -6,6 +6,7 @@
 #include <thread>
 #include <unistd.h>
 #include <string.h>
+#include <list>
 #include "core_simulation.h"
 #include "mydevices.h"
 
@@ -35,33 +36,35 @@ public :
 
 class Plante{
 protected :
-	float luminosity;
-	float temperature;
-	float CO2;
-	float humidity;
+	//float luminosity;
+	//float temperature;
+	//float CO2;
+	//float humidity;
 	int Energy;
 	int MaxEnergy;
 	int MinEnergy;
+	int static NbPlantes;
 	
 public :
 	Plante();
 	
 	bool IsAlive();
-	bool IsThirsty();
+	int IsThirsty();
 	bool NeedsLight();
 	bool NeedsMoreCO2(); 
 	int NeedsHeat();
 	
-	void Set_lum(float lum);
-	void Set_temp(float temp);
-	void Set_CO2(float C);
-	void Set_hum(float hum);
+	//void Set_lum(float lum);
+	//void Set_temp(float temp);
+	//void Set_CO2(float C);
+	//void Set_hum(float hum);
 
 };
 
 
 class MyApplication{
 public :
+	
 	MyApplication();
 	int main();
 };

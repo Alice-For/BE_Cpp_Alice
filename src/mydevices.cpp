@@ -305,7 +305,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		  cout <<"chauffage run 2 : speed vaut "<<speed<<endl;
 		  if (speed==0) {
 			  cout << "---- Chauffage eteint -----\n";
-			  Environnement::Set_temp(22.5);
+			  //Environnement::Set_temp(22.5);
 		  }
 		  else {
 			  cout << "---- Chauffage allume-------\n";

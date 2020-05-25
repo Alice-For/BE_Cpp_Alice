@@ -53,7 +53,7 @@ Plante ::Plante(){
 	MaxEnergy=10;
 	MinEnergy=0;
 } 
-
+int Plante::NbPlantes=0;
 
 	bool Plante ::IsAlive(){
 		bool vivante;
@@ -84,21 +84,24 @@ Plante ::Plante(){
 	}
 	
 	
-	bool Plante::IsThirsty(){ //-> 0 si OK / 1 si soif
-		bool soif;
-		if (humidity < 0.6){
-			soif = true;
+	int Plante::IsThirsty(){ //-> 0 si OK / 1 si soif /2 si trop humide
+		int soif;
+		if (Environnement::Get_hum() < 0.6){
+			soif = 1;
 		}
-		else {
-			soif = false;
+		else if (Environnement::Get_hum() > 0.9)
+			soif = 2;
 		}
+	else {
+		soif = 0;
+	}
 		return soif;
 	}
 	
 	
 	bool Plante ::NeedsLight(){ //-> 0 si OK / 1 si pas assez de lumiere
 		bool noir;
-		if (luminosity <10){ //kilolux
+		if (Environnement::Get_lum() <10){ //kilolux
 			noir = true;
 		}
 		else {
@@ -110,7 +113,7 @@ Plante ::Plante(){
 	
 	bool Plante::NeedsMoreCO2(){ //-> 0 si OK / 1 si pas assez de CO2
 		bool PasDair;
-		if (CO2<0.0003){
+		if (Environnement::Get_CO2()<0.0003){
 			PasDair=true;
 		}
 		else {
@@ -122,10 +125,10 @@ Plante ::Plante(){
 	
 	int Plante::NeedsHeat(){  //-> 0 si OK / 1 si trop chaud / 2 si trop froid
 		int chaleur;
-		if (temperature<15.0){ //trop froid
+		if (Environnement::Get_temp()<15.0){ //trop froid
 			chaleur=2;
 		}
-		else if (temperature>25.0){ //trop chaud
+		else if (Environnement::Get_temp()>25.0){ //trop chaud
 			chaleur=1;
 		}
 		else { // tout va bien :)
@@ -139,7 +142,7 @@ Plante ::Plante(){
 	//OK -> fait rien
 	//Trop froid -> chauffage
 	
-	
+	/*
 	void Plante::Set_lum(float lum){
 		luminosity=lum;
 	}
@@ -154,7 +157,7 @@ Plante ::Plante(){
 	
 	void Plante::Set_hum(float hum){
 		humidity=hum;
-	}
+	}*/
 	
 	
 	
@@ -167,25 +170,43 @@ MyApplication::MyApplication(){
 }
 
 
-int MyApplication::main(){
+int MyApplication::main(Plante *plantain){
+	int etat; //probleme : un seul entier renvoye alors qu'il y a peut etre plusieurs actions a faire en meme temps
 	
+	if (!plantain.IsAlive){
+		//arreter tous les actionneurs
+		etat=0;
+	}
+	else {
+	if (plantain.IsThirsty==1){ // 1 si soif 
+		//actionneur Arrosage se met en route
+		//fermeture fenetre
+		etat=1;
+	}
+	else if (plantain.IsThirsty==2){ // 2 si trop humide
+		//ouverture fenetre
+		//arret de l'arrosage
+		etat=2;
+	}
+	if (plantain.NeedsHeat ==1){ //1 si trop chaud
+		//actionneur Ventilateur se met en route
+		//arret actionneur chauffage
+		etat=3;
+		
+	} 
+	else if (plantain.NeedsHeat ==2){ //2 si trop froid
+		//actionneur Chauffage se met en route
+		//arret ventilateur
+		etat=4;
+	} 
+	if (plantain.NeedsLight){
+		//Actionneur lampe se met en route
+		etat=5;
+	}
+	}
 	
-   /* appartement.Set_lum(val_l);
-    appartement.Set_temp(val_t);
-    appartement.Set_CO2(val_c);
-    appartement.Set_hum(val_h);
-    
-	cactus.Set_lum(val_l);
-    cactus.Set_temp(val_t);
-    cactus.Set_CO2(val_c);
-    cactus.Set_hum(val_h);*/
-    
-   // if (cactus.IsThirsty){
-    	//Lampe -> allumer ou eteindre
-		//Arrosage -> allumer ou eteindre
-		//etc
 		
 		//Modifier les valeurs d'environnement
     	
-	return 0;
+	return etat ;
 }
