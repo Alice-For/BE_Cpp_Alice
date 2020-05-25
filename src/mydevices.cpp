@@ -4,13 +4,6 @@
 
 using namespace std;
 
-//variables d'environnement
-/*float luminosity=15.0; //kilolux (different des lumens)
-float temperature =22.5;
-float CO2 = 0.0003;
-float humidity = 0.40;*/
-
-
 
 //////////////////////////// CLASSE CAPTEUR //////////////////////////////////////////
 
@@ -25,22 +18,14 @@ Capteur ::Capteur(int d, float v):Device(), temps(d), val(v){
 	ptrmem=0;
 }
 
-/*
-float Capteur::Get_val(){
-	return val;
-}
-
-void Capteur::Set_val(float v) {
-	val=v;
-
-}*/
-
 
 //////////////////////////// CLASSE CAPTEUR LUMINOSITE //////////////////////////////////////////
 
 
 //ordre des arguments doit etre le meme que dans le .h
 AnalogSensorLuminosity::AnalogSensorLuminosity(int d, float v):Capteur(d, v) {
+	val_max=100;
+	val_min=1;
 	cout <<"Capteur luminosite initialise"<<endl;
 }
 
@@ -66,6 +51,8 @@ void AnalogSensorLuminosity::run(){
 //classe AnalogSensorTemperature
 AnalogSensorTemperature::AnalogSensorTemperature(int d, float v):Capteur(d, v){
 	cout <<"Capteur temperature initialise"<<endl;
+	val_max=80;
+	val_min=-20;
 }
 
 /*
@@ -90,6 +77,8 @@ void AnalogSensorTemperature::run(){
   //constructeur
 AnalogSensorHumidity::AnalogSensorHumidity (int d, float v):Capteur(d, v){
 	cout <<"Capteur humidite initialise"<<endl;
+	val_max=1.0; //peut-etre passer a 100 ? Chiffres apres la virgule = remplaces par des zeros
+	val_min=0.0;
 }
 
 /*  
@@ -116,6 +105,8 @@ float AnalogSensorHumidity::Get_val(){
   //constructeur
 AnalogSensorCO2::AnalogSensorCO2 (int d, float v):Capteur(d, v){
 	cout <<"Capteur CO2 initialise"<<endl;
+	val_max=0.5 ; //peut etre passer a 50 ? Chiffres apres la virgule = remplaces par des zeros
+	val_min=0.0;
 }
 
 /*
@@ -236,9 +227,6 @@ void Lampe::run(){
 Moteur::Moteur(int d):Actionneur(d){
 	speed=0;
 	position=0;
-	//cout <<"moteur initialise"<<endl;
-	//cout <<"vitesse initiale : "<<speed<<endl;
-	//cout <<"position initiale : "<<position<<endl;
 }
 	
 	int Moteur :: read_speed(){
@@ -267,7 +255,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		  else {
 			  cout << "---- Ventilateur allume-------\n";
 			  cout<<"---- Ventilateur vitesse "<< speed << endl;
-			  Environnement::Set_temp(21.0);
+			  Environnement::Set_temp(Environnement::Get_temp()-1);
 		  }
 		  sleep(temps);
 		  }
@@ -275,6 +263,7 @@ Moteur::Moteur(int d):Actionneur(d){
 	} 
 	Ventilateur ::Ventilateur(int d): Moteur(d){
 		cout <<"ventilateur initialise"<<endl;
+		max_speed=10;
 	} 
 	
 	
@@ -293,16 +282,15 @@ Moteur::Moteur(int d):Actionneur(d){
 	
 	Chauffage::Chauffage(int d): Moteur(d){
 		cout <<"chauffage initialise"<<endl;
+		max_speed=10;
 	} 
 
 	void Chauffage ::run(){
 		
 
 	while(1){
-		cout <<"chauffage run 1 : speed vaut "<<speed<<endl;
 		  if(ptrmem!=NULL)
 			speed=*ptrmem;
-		  cout <<"chauffage run 2 : speed vaut "<<speed<<endl;
 		  if (speed==0) {
 			  cout << "---- Chauffage eteint -----\n";
 			  //Environnement::Set_temp(22.5);
@@ -310,7 +298,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		  else {
 			  cout << "---- Chauffage allume-------\n";
 			  cout<<"---- Chauffage : vitesse "<< speed << endl;
-			  Environnement::Set_temp(25);	  
+			  Environnement::Set_temp(Environnement::Get_temp()+1);	  
 		  }
 		  sleep(temps);
 		  }	
@@ -329,7 +317,9 @@ Moteur::Moteur(int d):Actionneur(d){
 /////////////////////////////CLASSE OUVERTURE FENETRE //////////////////////////////////////////////////
 //Ici la vitesse n'est pas pertinente,on ne regarde que la position
 
-	MoteurFenetre::MoteurFenetre(int d):Moteur(d){} 
+	MoteurFenetre::MoteurFenetre(int d):Moteur(d){
+		max_pos=50;
+	} 
 	
 	void MoteurFenetre::run(){
 		while(1){

@@ -18,6 +18,8 @@ protected :
 	//float alea ; //ecart entre les differentes valeurs mesurees
 	int temps ; //temps ecoule entre deux mesures
 	float val ; //valeur lue par le capteur
+	float val_max;
+	float val_min;
 
 	
 public :
@@ -130,6 +132,10 @@ public:
 ////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
 class Moteur: public Actionneur{
 protected :
+	int max_speed;
+	int min_speed=0;
+	int max_pos;
+	int min_pos=0;
 	int speed;
 	int position;
 	

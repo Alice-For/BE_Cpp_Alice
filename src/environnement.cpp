@@ -8,9 +8,9 @@ Environnement::Environnement(){}
 
 //initialisation des variables statiques
 float Environnement::luminosity = 15.0; //kilolux (different des lumens)
-float Environnement::temperature = 22.5;
+float Environnement::temperature = 27;
 float Environnement::CO2 = 0.0003;
-float Environnement::humidity=0.40;
+float Environnement::humidity=0.70;
 
 
 float Environnement::Get_lum(void){	
@@ -48,36 +48,47 @@ void Environnement::Set_hum(float hum){
 
 //////////////////////////////// CLASSE PLANTE //////////////////////////////////////////
 
+int Plante::NbPlantes=0;
+
 Plante ::Plante(){
 	Energy = 10; 
 	MaxEnergy=10;
 	MinEnergy=0;
+	NbPlantes+=1;
+	cout<<"Une nouvelle plante ! Youpi !"<<endl;
 } 
-int Plante::NbPlantes=0;
+
+void Plante::UpdateEnergy(){
+	if (IsThirsty()==1 ||IsThirsty()==2 || NeedsLight() || NeedsHeat()==1 || NeedsHeat()==2 || NeedsMoreCO2()){
+		if (Energy<=MinEnergy){ //plante souffre -> moins d'energie
+			Energy=0;
+		}
+		else {
+			Energy-=1;
+			cout<<"Plante : Je vis mais je souffre ! :( ---> energie : "<<Energy<<endl;
+		}
+	}
+	else if (IsThirsty()==0 && !NeedsLight() && NeedsHeat()==0 && !NeedsMoreCO2()){ // tout va bien pour la plante
+		
+		if (Energy>=MaxEnergy){
+			Energy=10;
+		}
+		else {
+			Energy+=1;
+		}
+		cout<<"Plante : Je vis et je vais bien ! ----> energie : "<<Energy<<endl;
+	}
+}
+
 
 	bool Plante ::IsAlive(){
 		bool vivante;
-		//plante meurt quand elle froid / chaud + soif + pas de lumiere + pas d'energie
-
-		if (IsThirsty() || NeedsLight() || NeedsHeat()==1 || NeedsHeat()==2 || NeedsMoreCO2()){
-			if (Energy<=MinEnergy){ //plante souffre -> moins d'energie
-				Energy=0;
-				vivante=false;
-			}
-			else {
-				Energy-=1;
-				vivante=true;
-			}
+		UpdateEnergy();
+		if (Energy==0){
+			vivante=false; //plante meurt quand elle froid / chaud + soif + pas de lumiere + pas d'energie
+			cout<<"Plante : je suis morte :("<<endl;
 		}
-		
-		else if (!IsThirsty() && !NeedsLight() && NeedsHeat()==0 &&! NeedsMoreCO2()){ // tout va bien pour la plante
-			if (Energy>=MaxEnergy){
-				Energy=10;
-			}
-			else {
-				Energy+=1;
-			}
-			
+		else {
 			vivante=true;
 		}
 		return vivante;
@@ -89,12 +100,12 @@ int Plante::NbPlantes=0;
 		if (Environnement::Get_hum() < 0.6){
 			soif = 1;
 		}
-		else if (Environnement::Get_hum() > 0.9)
+		else if (Environnement::Get_hum() > 0.9){
 			soif = 2;
 		}
-	else {
-		soif = 0;
-	}
+		else {
+			soif = 0;
+		}
 		return soif;
 	}
 	
@@ -115,9 +126,11 @@ int Plante::NbPlantes=0;
 		bool PasDair;
 		if (Environnement::Get_CO2()<0.0003){
 			PasDair=true;
+			cout<<"Plante : Je veux du CO2 !"<<endl;
 		}
 		else {
 			PasDair=false;
+			cout<<"Plante : J'ai du CO2"<<endl;
 		}
 		return PasDair;
 	}
@@ -164,49 +177,84 @@ int Plante::NbPlantes=0;
 	///////////////////////////// CLASSE MY APPLICATION ///////////////////////////////////////
 	
 MyApplication::MyApplication(){
+	NbPlantes=0;
 	
 	//liste de plantes
 	//liste d'environnement
 }
 
 
-int MyApplication::main(Plante *plantain){
-	int etat; //probleme : un seul entier renvoye alors qu'il y a peut etre plusieurs actions a faire en meme temps
+bool MyApplication::main(Plante *plantain, int *commandTab, int NbCmd){
+	commandTab= new int[5];
+	bool EnVie;
 	
-	if (!plantain.IsAlive){
+	if (!(plantain->IsAlive())){
 		//arreter tous les actionneurs
-		etat=0;
+		for(int i=0;i<=NbCmd;i++) commandTab[i]=0;
+		EnVie=false;
 	}
 	else {
-	if (plantain.IsThirsty==1){ // 1 si soif 
-		//actionneur Arrosage se met en route
-		//fermeture fenetre
-		etat=1;
-	}
-	else if (plantain.IsThirsty==2){ // 2 si trop humide
-		//ouverture fenetre
-		//arret de l'arrosage
-		etat=2;
-	}
-	if (plantain.NeedsHeat ==1){ //1 si trop chaud
-		//actionneur Ventilateur se met en route
-		//arret actionneur chauffage
-		etat=3;
-		
-	} 
-	else if (plantain.NeedsHeat ==2){ //2 si trop froid
-		//actionneur Chauffage se met en route
-		//arret ventilateur
-		etat=4;
-	} 
-	if (plantain.NeedsLight){
-		//Actionneur lampe se met en route
-		etat=5;
-	}
+		EnVie=true;
+		if ((plantain->IsThirsty())==1){ 
+			cout<<"Plante : J'ai soif"<<endl;
+			// 1 si soif 
+			//actionneur Arrosage se met en route
+			//fermeture fenetre
+			commandTab[4]=1;
+			commandTab[0]=0;
+		}
+		else if ((plantain->IsThirsty())==2){ // 2 si trop humide
+			cout<<"Plante : J'ai trop d'eau ! :("<<endl;
+			//ouverture fenetre
+			//arret de l'arrosage
+			commandTab[4]=0;
+			commandTab[0]=50;
+		}
+		else if ((plantain->IsThirsty())==0){
+			//fermeture fenetre
+			//arret arrosage
+			commandTab[0]=0;
+			commandTab[4]=0;
+			cout<<"Plante : J'ai assez d'eau :)"<<endl;
+		}
+		if ((plantain->NeedsHeat()) ==1){ //1 si trop chaud
+			//actionneur Ventilateur se met en route
+			//arret actionneur chauffage
+			commandTab[2]=10;
+			commandTab[1]=0;
+			cout<<"Plante : il fait chaud :("<<endl;
+		} 
+		else if ((plantain->NeedsHeat()) ==2){ //2 si trop froid
+			//actionneur Chauffage se met en route
+			//arret ventilateur
+			commandTab[2]=0;
+			commandTab[1]=10;
+			cout<<"Plante : il fait il fait froid :("<<endl;
+		}
+		else if ((plantain->NeedsHeat()) ==0){ //chaleur suffisante
+			//arret chauffage et ventilateur
+			commandTab[2]=0;
+			commandTab[1]=0;
+			cout<<"Plante : bonne temperature :D"<<endl;
+		}
+		if (plantain->NeedsLight()){
+			//Actionneur lampe se met en route
+			cout<<"Plante : J'ai peur du noir ! :("<<endl;
+			commandTab[3]=1;
+		}
+		if (!(plantain->NeedsLight())){
+			//extinction lampe
+			commandTab[3]=0;
+			cout<<"Plante : vive la lumiere :) "<<endl;
+		}
 	}
 	
-		
-		//Modifier les valeurs d'environnement
-    	
-	return etat ;
+	for (int i=0;i<NbCmd;i++){
+		cout<<commandTab[i];
+	}
+	cout<<endl;
+	
+	return EnVie;
+	//Modifier les valeurs d'environnement
+
 }

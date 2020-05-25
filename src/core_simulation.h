@@ -17,7 +17,7 @@
 #include <mutex>
 
 
-#define DELAY 3
+#define DELAY 2
 #define TEMP 22.5
 #define LUM 15.5
 #define HUM 0.6

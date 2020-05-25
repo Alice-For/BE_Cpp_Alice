@@ -34,9 +34,6 @@ int main(){
   //esp8266.pin(8,Tuyau);
   
   esp8266.i2c(1,screen);
-  Environnement appartement;
-  Plante cactus;
-  
   // allumage de la carte
   esp8266.run();
   //Destructeurs a appeler ?

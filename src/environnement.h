@@ -40,6 +40,7 @@ protected :
 	//float temperature;
 	//float CO2;
 	//float humidity;
+	
 	int Energy;
 	int MaxEnergy;
 	int MinEnergy;
@@ -47,7 +48,7 @@ protected :
 	
 public :
 	Plante();
-	
+	void UpdateEnergy();
 	bool IsAlive();
 	int IsThirsty();
 	bool NeedsLight();
@@ -63,10 +64,12 @@ public :
 
 
 class MyApplication{
+
 public :
-	
+	int NbPlantes ;
+	//fonction pour ajouter de nouvelles plantes ? Avec une liste ?
 	MyApplication();
-	int main();
+	static bool main(Plante *plantain, int *commandTab, int NbCmd);
 };
 
 

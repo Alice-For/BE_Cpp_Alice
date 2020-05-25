@@ -1,3 +1,5 @@
+#define NBCAPTEUR 2
+
 #include <unistd.h>
 #include "core_simulation.h"
 #include "mydevices.h"
@@ -19,28 +21,70 @@ void Board::setup(){
   pinMode(6,OUTPUT);
   //pinMode(7,OUTPUT);
   //pinMode(8,OUTPUT);
-  
+  //analogWrite(4, 0);
+  analogWrite(5, 0); //initialiser les actionneurs a 0, sinon ils font n'importe quoi :(
+  analogWrite(6, 0);
+  //digitalWrite(7, 0);
+  //digitalWrite(8, 0);
   //Ecran ??
 }
 
 // la boucle de controle arduino
 void Board::loop(){
-	Plante cactus;
-  char buf[100]; //buf2[100], buf3[100], buf4[100];
-  float val_t; // val_h, val_l, val_c;
-  static int cpt=0;
-  int etat;
-  analogWrite(5, 0); //initialiser les actionneurs a 0, sinon ils font n'importe quoi :(
-  analogWrite(6, 0);
+	Plante *cactus=new Plante;
+	bool Vivant;
+	char buf[100]; //buf2[100], buf3[100], buf4[100];
+	float val_t; // val_h, val_l, val_c;
+	static int cpt=0;
+	analogWrite(5, 0); //initialiser les actionneurs a 0, sinon ils font n'importe quoi :(
+	analogWrite(6, 0);
   
-  int i=0;
-  for(i=0;i<10;i++){
-    val_t=analogRead(1);
+  for(int i=0;i<10;i++){
+	  int NbCmd=NBCAPTEUR; //nb de capteurs  fixer a la main
+	  int *CommandTab=new int[5];
+	  
+	  val_t=analogRead(1);
+    //Environnement::Set_temp(val_t);
     //val_h=analogRead(0);
     //val_l=analogRead(2);
     //val_c=analogRead(3);
-    analogWrite(5, 1); //chauffage a 1
-    analogWrite(6, 0); //ventilateur a 0
+    
+
+    /*
+     * CommandTab : tableau d'entiers de la meme taille que le nb de capteurs.
+     * CommandTab[0] -> fenetre. 			Valeurs : entre 0 et 50
+     * CommandTab[1] -> chauffage			Valeurs : entre 0 et 10
+     * CommandTab[2] -> ventilateur			Valeurs : entre 0 et 10
+     * CommandTab[3] ->	lampe				Valeurs : 0 ou 1
+     * CommandTab[4] ->	arrosage			Valeurs : 0 ou 1
+     * */
+    
+    
+    Vivant = MyApplication::main(cactus,CommandTab, NbCmd);
+    if (!(Vivant)){
+    	cout <<"exit la plante, vous n'avez pas la main verte !"<<endl;
+    	exit(-1);
+    }
+    else {
+    
+    //toujours le meme nombre d'actions -> 1 par actionneur.
+    //1 action = soit eteindre l'actionneur, soit l'allumer ("le laisser tel qu'il est" = un de ces deux cas)
+    //reste a transmettre la valeur a ecrire
+    
+    //for (int j=4;j<7;j++) : quand tous les capteurs sont en place
+    //analogWrite(j, commandTab[j-4]);
+    for (int j=4;j<7;j++){ //partie ecriture analogique
+    	analogWrite(j, CommandTab[j-4]);
+    }
+    
+    digitalWrite(7, CommandTab[3]); //partie ecriture numerique
+    digitalWrite(8, CommandTab[4]);
+    
+     
+    delete CommandTab;
+    
+    //Partie affichage
+    
     
     sprintf(buf,"temperature %f",val_t); //temp doit augmenter avec le chauffage
     //sprintf(buf2,"luminosite %f",val_l);
@@ -52,23 +96,6 @@ void Board::loop(){
     //Serial.println(buf3);
     //Serial.println(buf4);
     
-    //appartement.Set_lum(val_l); //ne pas utiliser, car deja modifie par run() du chauffage ou du ventilateur
-    //appartement.Set_temp(val_t);
-    //appartement.Set_CO2(val_c);
-    //appartement.Set_hum(val_h);
-    
-	//cactus.Set_lum(val_l);
-    //cactus.Set_temp(val_t);
-    //cactus.Set_CO2(val_c);
-    //cactus.Set_hum(val_h);
-    etat=MyApplication::main(cactus);
-    
-    if (etat==0){ //plante morte
-        analogWrite(5, 0);
-        analogWrite(6, 0);
-    }
-    
-    //autres valeurs de etat a tester pour savoir quel actionneur modifier
     
     if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature
@@ -96,7 +123,8 @@ void Board::loop(){
         }*/
     
     cpt++;
-    sleep(1);
+    sleep(3);
+  }
   }
 
   
