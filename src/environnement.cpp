@@ -155,7 +155,7 @@ void Plante::UpdateEnergy(int temp, int hum, int lum, int co2){
 
 	///////////////////////////// CLASSE MY APPLICATION ///////////////////////////////////////
 
-MyApplication::MyApplication(){
+HappySeed::HappySeed(){
 	NbPlantes=0;
 
 	//liste de plantes
@@ -163,7 +163,7 @@ MyApplication::MyApplication(){
 }
 
 
-bool MyApplication::main(int temp, int hum, int lum, int co2, Plante *plantain, int *commandTab, bool *MemoireLampe){
+bool HappySeed ::main(int temp, int hum, int lum, int co2, Plante *plantain, int *commandTab, bool *MemoireLampe){
 	bool EnVie;
 	cout<<endl;
 

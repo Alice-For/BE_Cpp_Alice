@@ -68,7 +68,7 @@ void Board::loop(){
 	      sprintf(buf," Temperature : %d °C \n           Humidite : %d pour 100 \n           Luminosite : %d kilolux \n           CO2 : %d pour 1 0000",val_t, val_h,val_l, val_c);
 	      bus.write(1,buf,1000);
 
-	  //Application -> main
+	  //HappySeed -> main
 
     /*
      * CommandTab : tableau d'entiers de la meme taille que le nb de capteurs.
@@ -80,7 +80,7 @@ void Board::loop(){
      * */
 
 
-    Vivant = MyApplication::main(val_t, val_h, val_l, val_c, cactus,CommandTab, MemoireLampe);
+    Vivant = HappySeed ::main(val_t, val_h, val_l, val_c, cactus,CommandTab, MemoireLampe);
     if (!(Vivant)){
     	cout <<"Adieu la plante, vous n'avez pas la main verte !"<<endl;
     	exit(-1);

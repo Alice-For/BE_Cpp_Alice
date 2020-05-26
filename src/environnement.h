@@ -55,19 +55,13 @@ public :
 };
 
 
-class MyApplication{
+class HappySeed{
 
 public :
 	int NbPlantes ;
 	//fonction pour ajouter de nouvelles plantes ? Avec une liste ?
-	MyApplication();
+	HappySeed();
 	static bool main(int temp, int hum, int lum, int co2, Plante *plantain, int *commandTab, bool *MemoireLampe);
 };
-
-
-
-
-
-
 
 #endif
