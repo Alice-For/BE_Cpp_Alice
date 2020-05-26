@@ -24,8 +24,8 @@ void Board::setup(){
   pinMode(PIN_HUMIDITE,INPUT);
   pinMode(PIN_LUMIERE,INPUT);
   //pinMode(3,INPUT);
-   
-  
+
+
   pinMode(PIN_FENETRE,OUTPUT);
   pinMode(PIN_CHAUFFAGE,OUTPUT);
   pinMode(PIN_VENTILATEUR,OUTPUT);
@@ -37,7 +37,7 @@ void Board::setup(){
   digitalWrite(PIN_LAMPE, 0);
   digitalWrite(PIN_ARROSAGE, 0);
 
- 
+
 }
 
 // la boucle de controle arduino
@@ -47,8 +47,8 @@ void Board::loop(){
 	char buf[100], buf3[100], buf2[100]; //buf3[100], buf4[100];
 	float val_t, val_h, val_l; //val_c;
 	static int cpt=0;
-  
-	
+
+
  for(int i=0;i<100;i++){ 			//a voir si on la garde, pas forcement utile
 	 bool *MemoireLampe=new bool ;
 	 *MemoireLampe= false;
@@ -62,49 +62,49 @@ void Board::loop(){
 	  val_l=analogRead(PIN_LUMIERE);
     //val_c=analogRead(3);
 
-	  
+
 	  //Affichage valeurs environnement
-     
-	      
-	      sprintf(buf,"temperature %f",val_t); 
+
+
+	      sprintf(buf,"temperature %f",val_t);
 	      sprintf(buf2,"luminosite %f",val_l);
 	      sprintf(buf3,"humidite %f",val_h);
 	      //sprintf(buf4,"CO2 %f",val_c);
-	      
+
 	      Serial.println(buf);
 	      Serial.println(buf2);
 	      Serial.println(buf3);
 	      //Serial.println(buf4);
 
-	      
+
 	  if(cpt%5==0){
 	          // tous les 5 fois on affiche sur l ecran la temperature
 	        sprintf(buf,"Temperature : %f",val_t);
 	        bus.write(1,buf,100);
 	      }
-	      
+
 	      if(cpt%5==1){
-	          // tous les 5 fois on affiche sur l ecran l'humidite  
+	          // tous les 5 fois on affiche sur l ecran l'humidite
 	      	sprintf(buf3,"%f",val_h);
 	          bus.write(1,buf3,100);
 	       }
-	      
-	      
+
+
 	      if(cpt%5==2){
-	          // tous les 5 fois on affiche sur l ecran la luminosite  
+	          // tous les 5 fois on affiche sur l ecran la luminosite
 	      	sprintf(buf2,"%f",val_l);
 	          bus.write(1,buf2,100);
 	          }
-	      
+
 /*
-	      
+
 	      if(cpt%5==3){
-	          // tous les 5 fois on affiche sur l ecran la luminosite  
+	          // tous les 5 fois on affiche sur l ecran la luminosite
 	      	sprintf(buf4,"%f",val_c);
 	          bus.write(1,buf4,100);
 	          }*/
-	  
-	  
+
+
 	  //APpliation -> main
 
     /*
@@ -115,21 +115,21 @@ void Board::loop(){
      * CommandTab[3] ->	lampe				Valeurs : 0 ou 1
      * CommandTab[4] ->	arrosage			Valeurs : 0 ou 1
      * */
-    
-    
-    Vivant = MyApplication::main(cactus,CommandTab, MemoireLampe);
+
+
+    Vivant = MyApplication::main(val_t, val_h, val_l, val_c, cactus,CommandTab, MemoireLampe);
     if (!(Vivant)){
     	cout <<"exit la plante, vous n'avez pas la main verte !"<<endl;
     	exit(-1);
     }
     else {
-    	
-    
+
+
     //toujours le meme nombre d'actions -> 1 par actionneur.
     //1 action = soit eteindre l'actionneur, soit l'allumer ("le laisser tel qu'il est" = un de ces deux cas)
     //reste a transmettre la valeur a ecrire
-    
-    	
+
+
     for (int i=0;i<5;i++){
     	cout<<CommandTab[i]<<" ";
     }
@@ -140,8 +140,8 @@ void Board::loop(){
     analogWrite(PIN_VENTILATEUR, CommandTab[2]); 	//ventilateur ->10
     analogWrite(PIN_LAMPE, CommandTab[3]); 			//lampe
     digitalWrite(PIN_ARROSAGE, CommandTab[4]);		//arrosage
-    
-    
+
+
     delete CommandTab;
     cpt++;
     sleep(1);
@@ -149,10 +149,10 @@ void Board::loop(){
   }
   }
 
- 
+
   //minuteur arrosage a tester. Si arrive a expiration, arreter l'arrosage
-  
-  
+
+
 }
 
 

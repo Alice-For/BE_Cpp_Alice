@@ -81,15 +81,15 @@ AnalogSensorHumidity::AnalogSensorHumidity (int d, float v):Capteur(d, v){
 	val_min=0.0;
 }
 
-/*  
+/*
 float AnalogSensorHumidity::Get_val(){
 		float toreturn;
 		toreturn = Capteur::Get_val();
 		cout <<"Valeur mesure humidite" <<endl;
 		return toreturn;
   }*/
-  
-  
+
+
   void AnalogSensorHumidity::run(){
 	  while(1){
 	    if(ptrmem!=NULL)
@@ -148,7 +148,7 @@ Lampe::Lampe(int t):Actionneur(t), state(LOW){
 }
 
 void Lampe::run(){
-	
+
 	while(1){
 	  if(ptrmem!=NULL)
 	    state=*ptrmem;
@@ -164,22 +164,22 @@ void Lampe::run(){
 	  }
 }
 
-  
+
   /*float Lampe::read_lum(){
 	  float toreturn = Environnement :: luminosity;
 	  //float toreturn2 = AnalogSensorLuminosity::Get_val();
 	  return toreturn;
   }*/
-  
+
   //void LED::set_lum(float v); // a ecrire
-  
+
   void Lampe::Allumer(){
 	  state=HIGH;
   }
   void Lampe::Eteindre(){
 	  state=LOW;
   }
-  
+
   int Lampe::main(){
 	  return 0;
   } // a ecrire
@@ -191,14 +191,14 @@ Moteur::Moteur(int d):Actionneur(d){
 	speed=0;
 	position=0;
 }
-	
+
 	int Moteur :: read_speed(){
 		return speed;		//0 -> arrete ET 10 -> vitesse max
-	} 
+	}
 	int Moteur :: read_position(){
-		return position;	//0 position de base = 360 degres. 
-	} 
-	
+		return position;	//0 position de base = 360 degres.
+	}
+
 	//virtual void Moteur::run()=0; //fonction virtuelle pure
 
 
@@ -208,13 +208,20 @@ Moteur::Moteur(int d):Actionneur(d){
 	void Ventilateur ::run(){
 
 	while(1){
-		  if(ptrmem!=NULL)
-			speed=*ptrmem;
+		  if(ptrmem!=NULL){
+                if (*ptrmem<max_speed){
+                    speed=*ptrmem;
+                }
+                else {
+                    speed=max_speed;
+                }
+		  }
+
 		  if (speed==0){
 			  cout << "---- Ventilateur eteint -----\n";
 			  //Environnement::Set_temp(22.5);
 		  }
-					  
+
 		  else {
 			  cout << "---- Ventilateur allume-------\n";
 			  cout<<"---- Ventilateur vitesse "<< speed << endl;
@@ -223,17 +230,17 @@ Moteur::Moteur(int d):Actionneur(d){
 		  sleep(temps);
 		  }
 
-	} 
+	}
 	Ventilateur ::Ventilateur(int d): Moteur(d){
 		cout <<"ventilateur initialise"<<endl;
 		max_speed=10;
-	} 
-	
-	
+	}
+
+
 	void Ventilateur ::Write_speed(int sp){
 		speed = sp;
 		//a faire plus tard : fonction de saisie au clavier
-	} 
+	}
 	int Ventilateur ::main(){
 		return 0;
 	} // a ecrire
@@ -242,18 +249,24 @@ Moteur::Moteur(int d):Actionneur(d){
 
 /////////////////////////////CLASSE CHAUFFAGE //////////////////////////////////////////////////
 
-	
+
 	Chauffage::Chauffage(int d): Moteur(d){
 		cout <<"chauffage initialise"<<endl;
 		max_speed=10;
-	} 
+	}
 
 	void Chauffage ::run(){
-		
+
 
 	while(1){
-		  if(ptrmem!=NULL)
-			speed=*ptrmem;
+		  if(ptrmem!=NULL){
+            if (*ptrmem<max_speed){
+                    speed=*ptrmem;
+                }
+                else {
+                    speed=max_speed;
+                }
+		  }
 		  if (speed==0) {
 			  cout << "---- Chauffage eteint -----\n";
 			  //Environnement::Set_temp(22.5);
@@ -261,20 +274,20 @@ Moteur::Moteur(int d):Actionneur(d){
 		  else {
 			  cout << "---- Chauffage allume-------\n";
 			  cout<<"---- Chauffage : vitesse "<< speed << endl;
-			  Environnement::Set_temp(Environnement::Get_temp()+5);	  
+			  Environnement::Set_temp(Environnement::Get_temp()+5);
 		  }
 		  sleep(temps);
-		  }	
+		  }
 	}
-	
-	
+
+
 	void Chauffage ::Write_speed(int sp){
 		speed=sp;
-	} 
+	}
 	int Chauffage ::main(){
 		return 0;
 	} // a ecrire
-	
+
 
 
 /////////////////////////////CLASSE OUVERTURE FENETRE //////////////////////////////////////////////////
@@ -282,11 +295,16 @@ Moteur::Moteur(int d):Actionneur(d){
 
 	MoteurFenetre::MoteurFenetre(int d):Moteur(d){
 		max_pos=50;
-	} 
-	
+	}
+
 	void MoteurFenetre::run(){
 		while(1){
-		  if(ptrmem!=NULL)
+		  if(ptrmem!=NULL){
+                if (*ptrmem<max_pos)
+                    position=*ptrmem;
+                else
+                    position=max_pos;
+		  }
 			position=*ptrmem;
 		  if (position==0){
 			  cout << "---- Fenetre fermee -----\n";
@@ -300,21 +318,21 @@ Moteur::Moteur(int d):Actionneur(d){
 		  }
 		  sleep(temps);
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 	void MoteurFenetre::Write_pos(int p){
 		position=p;
-	} 
-	
-	
+	}
+
+
 	int MoteurFenetre ::main(){
 		return 0;
 	} // a ecrire
 
-	
+
 	void MoteurFenetre::Ouvrir_fenetre(){
 		int pos=0;
 	for (pos = 0; pos <= 50; pos += 1) // goes from 0 degrees to 180 degrees in steps of 1 degree
@@ -323,8 +341,8 @@ Moteur::Moteur(int d):Actionneur(d){
 		sleep(1);
 		}
 	}
-	
-	
+
+
 	void MoteurFenetre::Fermer_fenetre(){
 		int pos=50;
 		for (pos = 50; pos >= 0; pos -= 1)
@@ -332,15 +350,15 @@ Moteur::Moteur(int d):Actionneur(d){
 			Write_pos(pos); // tell servo to go to position in variable 'pos'
 			sleep(1);
 		}
-	}	
+	}
 
-	
+
 	///////////////////////////CLASSE ARROSAGE //////////////////////////////////////////
 
 
 		Arrosage::Arrosage(int d):Actionneur(d){
 		}
-		
+
 		void Arrosage::run(){
 			while(1){
 			  if(ptrmem!=NULL)
@@ -349,7 +367,7 @@ Moteur::Moteur(int d):Actionneur(d){
 			    cout << "----- Arrosage eteint ------\n";
 			    //Environnement::Set_hum(0.4);
 			  }
-			  		  
+
 			  else {
 				  cout << "----- Arrosage allume ------\n";
 				  Environnement::Set_hum(Environnement::Get_hum()+10);
@@ -358,19 +376,19 @@ Moteur::Moteur(int d):Actionneur(d){
 			  }
 		}
 		//void set_humidite(float hum){}
-		
+
 		/*
 		float Arrosage::read_humidite(){
 			//AnalogSensorHumidity hum = new AnalogSensorHumidity(0.0, 1, 0.4);
 			float toreturn = Environnement :: humidity;
 			//float toreturn2 = hum.Get_val();
-			return toreturn;		
+			return toreturn;
 		}*/
-		
+
 		int Arrosage::main(){
 			return 0;
 		}
-		
+
 
 
 
@@ -412,16 +430,16 @@ void IntelligentDigitalActuatorLED::run(){
 	      cout << "((((eteint))))\n";
 	      //luminosity=200;
 	    }
-	    
+
 	    else {
 	    cout << "((((allume))))\n";
 	    //luminosity=250;
 	    }
-	    
+
 	    sleep(temps);
 	    }
-	
-	
+
+
 }
 
 
@@ -445,7 +463,7 @@ ExternalDigitalSensorButton::ExternalDigitalSensorButton():Device(){}
 
 int ExternalDigitalSensorButton :: DetectButton(){
 	int appui;
-	
+
 	if(ifstream("on.txt")){
 		appui = 1;
 	}
@@ -457,7 +475,7 @@ int ExternalDigitalSensorButton :: DetectButton(){
 
 void ExternalDigitalSensorButton ::run(){
 	while(1){
-			
-		
+
+
 	}
 }

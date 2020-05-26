@@ -17,16 +17,16 @@ protected :
 	static float temperature;
 	static float CO2;
 	static float humidity;
-	
+
 public :
-		
+
 	Environnement();
-	
+
 	static float Get_lum(void);
 	static float Get_temp(void);
 	static float Get_CO2(void);
 	static float Get_hum(void);
-	
+
 	static void Set_lum(float lum);
 	static void Set_temp(float temp);
 	static void Set_CO2(float C);
@@ -40,21 +40,21 @@ protected :
 	//float temperature;
 	//float CO2;
 	//float humidity;
-	
+
 	int Energy;
 	int MaxEnergy;
 	int MinEnergy;
 	int static NbPlantes;
-	
+
 public :
 	Plante();
-	void UpdateEnergy();
-	bool IsAlive();
-	int IsThirsty();
-	bool NeedsLight();
-	bool NeedsMoreCO2(); 
-	int NeedsHeat();
-	
+	void UpdateEnergy(float temp, float hum, float lum, float co2);
+	bool IsAlive(float temp, float hum, float lum, float co2);
+	int IsThirsty(float hum);
+	bool NeedsLight(float lum);
+	bool NeedsMoreCO2(float co2);
+	int NeedsHeat(float temp);
+
 	//void Set_lum(float lum);
 	//void Set_temp(float temp);
 	//void Set_CO2(float C);
@@ -69,7 +69,7 @@ public :
 	int NbPlantes ;
 	//fonction pour ajouter de nouvelles plantes ? Avec une liste ?
 	MyApplication();
-	static bool main(Plante *plantain, int *commandTab, bool *MemoireLampe);
+	static bool main(float temp, float hum, float lum, float co2, Plante *plantain, int *commandTab, bool *MemoireLampe);
 };
 
 

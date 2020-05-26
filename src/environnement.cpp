@@ -13,15 +13,15 @@ float Environnement::CO2 = 0.0003;		//0.000000
 float Environnement::humidity=40;
 
 
-float Environnement::Get_lum(void){	
+float Environnement::Get_lum(void){
 	return luminosity;
 }
 
-float Environnement::Get_CO2(void){	
+float Environnement::Get_CO2(void){
 	return CO2;
 }
 
-float Environnement::Get_hum(void){	
+float Environnement::Get_hum(void){
 	return humidity;
 }
 
@@ -51,15 +51,15 @@ void Environnement::Set_hum(float hum){
 int Plante::NbPlantes=0;
 
 Plante ::Plante(){
-	Energy = 10; 
+	Energy = 10;
 	MaxEnergy=10;
 	MinEnergy=0;
 	NbPlantes+=1;
 	cout<<"Une nouvelle plante ! Youpi !"<<endl;
-} 
+}
 
-void Plante::UpdateEnergy(){
-	if (IsThirsty()==1 ||IsThirsty()==2 || NeedsLight() || NeedsHeat()==1 || NeedsHeat()==2 || NeedsMoreCO2()){
+void Plante::UpdateEnergy(float temp, float hum, float lum, float co2){
+	if (IsThirsty(hum)==1 ||IsThirsty(hum)==2 || NeedsLight(lum) || NeedsHeat(temp)==1 || NeedsHeat(temp)==2 || NeedsMoreCO2(co2)){
 		if (Energy<=MinEnergy){ //plante souffre -> moins d'energie
 			Energy=0;
 		}
@@ -68,8 +68,8 @@ void Plante::UpdateEnergy(){
 			cout<<"Plante : Je vis mais je souffre ! :( ---> energie : "<<Energy<<endl;
 		}
 	}
-	else if (IsThirsty()==0 && !NeedsLight() && NeedsHeat()==0 && !NeedsMoreCO2()){ // tout va bien pour la plante
-		
+	else if (IsThirsty(hum)==0 && !NeedsLight(lum) && NeedsHeat(temp)==0 && !NeedsMoreCO2(co2)){ // tout va bien pour la plante
+
 		if (Energy>=MaxEnergy){
 			Energy=10;
 		}
@@ -81,9 +81,9 @@ void Plante::UpdateEnergy(){
 }
 
 
-	bool Plante ::IsAlive(){
+	bool Plante ::IsAlive(float temp, float hum, float lum, float co2){
 		bool vivante;
-		UpdateEnergy();
+		UpdateEnergy(temp, hum, lum, co2);
 		if (Energy==0){
 			vivante=false; //plante meurt quand elle froid / chaud + soif + pas de lumiere + pas d'energie
 			cout<<"Plante : je suis morte :("<<endl;
@@ -93,14 +93,14 @@ void Plante::UpdateEnergy(){
 		}
 		return vivante;
 	}
-	
-	
-	int Plante::IsThirsty(){ //-> 0 si OK / 1 si soif /2 si trop humide
+
+
+	int Plante::IsThirsty(float hum){ //-> 0 si OK / 1 si soif /2 si trop humide
 		int soif;
-		if (Environnement::Get_hum() < 60){
+		if (hum < 60){
 			soif = 1;
 		}
-		else if (Environnement::Get_hum() > 90){
+		else if (hum > 90){
 			soif = 2;
 		}
 		else {
@@ -108,23 +108,23 @@ void Plante::UpdateEnergy(){
 		}
 		return soif;
 	}
-	
-	
-	bool Plante ::NeedsLight(){ //-> 0 si OK / 1 si pas assez de lumiere
+
+
+	bool Plante ::NeedsLight(float lum){ //-> 0 si OK / 1 si pas assez de lumiere
 		bool noir;
-		if (Environnement::Get_lum() <10){ //kilolux
+		if (lum <10){ //kilolux
 			noir = true;
 		}
 		else {
 			noir = false;
 		}
-		return noir;		
+		return noir;
 	}
-	
-	
-	bool Plante::NeedsMoreCO2(){ //-> 0 si OK / 1 si pas assez de CO2
+
+
+	bool Plante::NeedsMoreCO2(float co2){ //-> 0 si OK / 1 si pas assez de CO2
 		bool PasDair;
-		if (Environnement::Get_CO2()<0.0003){
+		if (co2<0.0003){
 			PasDair=true;
 			cout<<"Plante : Je veux du CO2 !"<<endl;
 		}
@@ -134,116 +134,95 @@ void Plante::UpdateEnergy(){
 		}
 		return PasDair;
 	}
-	
-	
-	int Plante::NeedsHeat(){  //-> 0 si OK / 1 si trop chaud / 2 si trop froid
+
+
+	int Plante::NeedsHeat(float temp){  //-> 0 si OK / 1 si trop chaud / 2 si trop froid
 		int chaleur;
-		if (Environnement::Get_temp()<15.0){ //trop froid
+		if (temp<15.0){ //trop froid
 			chaleur=2;
 		}
-		else if (Environnement::Get_temp()>24.0){ //trop chaud
+		else if (temp>24.0){ //trop chaud
 			chaleur=1;
 		}
 		else { // tout va bien :)
 			chaleur =0;
 		}
 		return chaleur;
-		
+
 	}
-	// 3 cas -> trop chaud / OK / trop froid
-	//Si trop chaud -> ventilateur
-	//OK -> fait rien
-	//Trop froid -> chauffage
-	
-	/*
-	void Plante::Set_lum(float lum){
-		luminosity=lum;
-	}
-	
-	void Plante::Set_temp(float temp){
-		temperature= temp;
-	}
-	
-	void Plante::Set_CO2(float C){
-		CO2=C;
-	}
-	
-	void Plante::Set_hum(float hum){
-		humidity=hum;
-	}*/
-	
-	
-	
+
+
+
 	///////////////////////////// CLASSE MY APPLICATION ///////////////////////////////////////
-	
+
 MyApplication::MyApplication(){
 	NbPlantes=0;
-	
+
 	//liste de plantes
 	//liste d'environnement
 }
 
 
-bool MyApplication::main(Plante *plantain, int *commandTab, bool *MemoireLampe){
+bool MyApplication::main(float temp, float hum, float lum, float co2, Plante *plantain, int *commandTab, bool *MemoireLampe){
 	bool EnVie;
-	
-	if (!(plantain->IsAlive())){
+
+	if (!(plantain->IsAlive(temp, hum, lum, co2))){
 		//arreter tous les actionneurs
 		for(int i=0;i<=4;i++) commandTab[i]=0;
 		EnVie=false;
 	}
 	else {
 		EnVie=true;
-		if ((plantain->IsThirsty())==1){ 
+		if ((plantain->IsThirsty(hum))==1){
 			cout<<"Plante : J'ai soif"<<endl;
-			// 1 si soif 
+			// 1 si soif
 			//actionneur Arrosage se met en route
 			//fermeture fenetre
 			commandTab[4]=1;
 			commandTab[0]=0;
 		}
-		else if ((plantain->IsThirsty())==2){ // 2 si trop humide
+		else if ((plantain->IsThirsty(hum))==2){ // 2 si trop humide
 			cout<<"Plante : J'ai trop d'eau ! :("<<endl;
 			//ouverture fenetre
 			//arret de l'arrosage
 			commandTab[4]=0;
 			commandTab[0]=50;
 		}
-		else if ((plantain->IsThirsty())==0){
+		else if ((plantain->IsThirsty(hum))==0){
 			//fermeture fenetre
 			//arret arrosage
 			commandTab[0]=0;
 			commandTab[4]=0;
 			cout<<"Plante : J'ai assez d'eau :)"<<endl;
 		}
-		if ((plantain->NeedsHeat()) ==1){ //1 si trop chaud
+		if ((plantain->NeedsHeat(temp)) ==1){ //1 si trop chaud
 			//actionneur Ventilateur se met en route
 			//arret actionneur chauffage
 			commandTab[2]=10;
 			commandTab[1]=0;
 			cout<<"Plante : il fait chaud :("<<endl;
-		} 
-		else if ((plantain->NeedsHeat()) ==2){ //2 si trop froid
+		}
+		else if ((plantain->NeedsHeat(temp)) ==2){ //2 si trop froid
 			//actionneur Chauffage se met en route
 			//arret ventilateur
 			commandTab[2]=0;
 			commandTab[1]=10;
 			cout<<"Plante : il fait froid :("<<endl;
 		}
-		else if ((plantain->NeedsHeat()) ==0){ //chaleur suffisante
+		else if ((plantain->NeedsHeat(temp)) ==0){ //chaleur suffisante
 			//arret chauffage et ventilateur
 			commandTab[2]=0;
 			commandTab[1]=0;
 			cout<<"Plante : bonne temperature :D"<<endl;
 		}
-		if (plantain->NeedsLight()){
+		if (plantain->NeedsLight(lum)){
 			//Actionneur lampe se met en route
 			cout<<"Plante : J'ai peur du noir ! :("<<endl;
 			*MemoireLampe=true;
 			commandTab[3]=1;
-			
+
 		}
-		if (!(plantain->NeedsLight())){ //extinction lampe
+		if (!(plantain->NeedsLight(lum))){ //extinction lampe
 			cout<<"Plante : vive la lumiere :) "<<endl;
 			if (MemoireLampe){
 				commandTab[3]=1;
@@ -253,12 +232,12 @@ bool MyApplication::main(Plante *plantain, int *commandTab, bool *MemoireLampe){
 			}
 		}
 	}
-	
+
 	for (int i=0;i<5;i++){
 		cout<<commandTab[i]<<" ";
 	}
 	cout<<endl;
-	
+
 	return EnVie;
 	//Modifier les valeurs d'environnement
 
