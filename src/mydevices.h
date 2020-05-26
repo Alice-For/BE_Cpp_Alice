@@ -17,28 +17,22 @@ class Capteur : public Device{
 protected :
 	//float alea ; //ecart entre les differentes valeurs mesurees
 	int temps ; //temps ecoule entre deux mesures
-	float val ; //valeur lue par le capteur
-	float val_max;
-	float val_min;
+	int val ; //valeur lue par le capteur
+	int val_max;
+	int val_min;
 
 	
 public :
 	Capteur();
-	Capteur(int d, float v);
-	//float Get_val();
-	//void Set_val(float v) ; //sorte de reset
-
+	Capteur(int d, int v);
 
 };
 //////////////////////////// CLASSE CAPTEUR DE LUMINOSITE //////////////////////////////////////////
 class AnalogSensorLuminosity: public Capteur {
 public :
-	AnalogSensorLuminosity(int d, float v);
-	//float Get_val();
-	
+	AnalogSensorLuminosity(int d, int v);
+
 	virtual void run();
-			
-	
 };
 
 
@@ -48,9 +42,7 @@ class AnalogSensorTemperature: public Capteur {
   
 public:
   //constructeur
-  AnalogSensorTemperature(int d, float v);
-  //float Get_val();
-  // thread representant le capteur et permettant de fonctionner independamment de la board
+  AnalogSensorTemperature(int d, int v);
   virtual void run();
 };
 
@@ -60,9 +52,7 @@ class AnalogSensorHumidity: public Capteur {
 
 public:
   //constructeur
-  AnalogSensorHumidity (int d, float v);
-  // thread representant le capteur et permettant de fonctionner independamment de la board
-  //float Get_val();
+  AnalogSensorHumidity (int d, int v);
   virtual void run();
 };
 
@@ -72,9 +62,8 @@ class AnalogSensorCO2: public Capteur {
 
 public:
   //constructeur
-  AnalogSensorCO2 (int d, float v);
+  AnalogSensorCO2 (int d, int v);
   // thread representant le capteur et permettant de fonctionner independamment de la board
-  //float Get_val();
   virtual void run();
 };
 
@@ -99,9 +88,6 @@ private :
 public :
 	Arrosage(int d);
 	virtual void run();
-	//void set_humidite(float hum);
-	//float read_humidite();
-	int main();
 	
 };
 
@@ -121,12 +107,6 @@ public:
   
   void Allumer();
   void Eteindre();
-  
-  //float read_lum();
-  
-  //void set_lum(float v);
-  
-  int main();
 };
 
 ////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
@@ -155,7 +135,6 @@ public :
 	virtual void run();
 	Ventilateur(int d);
 	void Write_speed(int sp);
-	int main();
 };
 
 
@@ -166,7 +145,6 @@ public :
 	virtual void run();
 	Chauffage(int d);
 	void Write_speed(int sp);
-	int main();
 };
 
 
@@ -180,7 +158,6 @@ public :
 	virtual void run();
 	
 	void Write_pos(int p);
-	int main();
 	void Ouvrir_fenetre();
 	void Fermer_fenetre();
 };

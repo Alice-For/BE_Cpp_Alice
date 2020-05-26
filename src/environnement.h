@@ -13,33 +13,30 @@
 
 class Environnement{
 protected :
-	static float luminosity;
-	static float temperature;
-	static float CO2;
-	static float humidity;
+	static int luminosity;
+	static int temperature;
+	static int CO2;
+	static int humidity;
 
 public :
 
 	Environnement();
 
-	static float Get_lum(void);
-	static float Get_temp(void);
-	static float Get_CO2(void);
-	static float Get_hum(void);
+	static int Get_lum(void);
+	static int Get_temp(void);
+	static int Get_CO2(void);
+	static int Get_hum(void);
 
-	static void Set_lum(float lum);
-	static void Set_temp(float temp);
-	static void Set_CO2(float C);
-	static void Set_hum(float hum);
+	static void Set_lum(int lum);
+	static void Set_temp(int temp);
+	static void Set_CO2(int C);
+	static void Set_hum(int hum);
 
 };
 
 class Plante{
 protected :
-	//float luminosity;
-	//float temperature;
-	//float CO2;
-	//float humidity;
+
 
 	int Energy;
 	int MaxEnergy;
@@ -48,17 +45,12 @@ protected :
 
 public :
 	Plante();
-	void UpdateEnergy(float temp, float hum, float lum, float co2);
-	bool IsAlive(float temp, float hum, float lum, float co2);
-	int IsThirsty(float hum);
-	bool NeedsLight(float lum);
-	bool NeedsMoreCO2(float co2);
-	int NeedsHeat(float temp);
-
-	//void Set_lum(float lum);
-	//void Set_temp(float temp);
-	//void Set_CO2(float C);
-	//void Set_hum(float hum);
+	void UpdateEnergy(int temp, int hum, int lum, int co2);
+	bool IsAlive(int temp, int hum, int lum, int co2);
+	int IsThirsty(int hum);
+	bool NeedsLight(int lum);
+	bool NeedsMoreCO2(int co2);
+	int NeedsHeat(int temp);
 
 };
 
@@ -69,7 +61,7 @@ public :
 	int NbPlantes ;
 	//fonction pour ajouter de nouvelles plantes ? Avec une liste ?
 	MyApplication();
-	static bool main(float temp, float hum, float lum, float co2, Plante *plantain, int *commandTab, bool *MemoireLampe);
+	static bool main(int temp, int hum, int lum, int co2, Plante *plantain, int *commandTab, bool *MemoireLampe);
 };
 
 

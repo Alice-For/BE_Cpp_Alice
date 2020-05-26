@@ -14,7 +14,7 @@ Capteur ::Capteur():Device(){
 	ptrmem=0;
 }
 
-Capteur ::Capteur(int d, float v):Device(), temps(d), val(v){
+Capteur ::Capteur(int d, int v):Device(), temps(d), val(v){
 	ptrmem=0;
 }
 
@@ -23,7 +23,7 @@ Capteur ::Capteur(int d, float v):Device(), temps(d), val(v){
 
 
 //ordre des arguments doit etre le meme que dans le .h
-AnalogSensorLuminosity::AnalogSensorLuminosity(int d, float v):Capteur(d, v) {
+AnalogSensorLuminosity::AnalogSensorLuminosity(int d, int v):Capteur(d, v) {
 	val_max=100;
 	val_min=1;
 	cout <<"Capteur luminosite initialise"<<endl;
@@ -49,10 +49,10 @@ void AnalogSensorLuminosity::run(){
 //////////////////////////// CLASSE CAPTEUR TEMPERATURE //////////////////////////////////////////
 
 //classe AnalogSensorTemperature
-AnalogSensorTemperature::AnalogSensorTemperature(int d, float v):Capteur(d, v){
+AnalogSensorTemperature::AnalogSensorTemperature(int d, int v):Capteur(d, v){
 	cout <<"Capteur temperature initialise"<<endl;
-	val_max=80;
-	val_min=-20;
+	val_max=150;
+	val_min=-50;
 }
 
 /*
@@ -75,19 +75,11 @@ void AnalogSensorTemperature::run(){
 //////////////////////////// CLASSE CAPTEUR HUMIDITE //////////////////////////////////////////
 
   //constructeur
-AnalogSensorHumidity::AnalogSensorHumidity (int d, float v):Capteur(d, v){
+AnalogSensorHumidity::AnalogSensorHumidity (int d, int v):Capteur(d, v){
 	cout <<"Capteur humidite initialise"<<endl;
-	val_max=1.0; //peut-etre passer a 100 ? Chiffres apres la virgule = remplaces par des zeros
+	val_max=100;
 	val_min=0.0;
 }
-
-/*
-float AnalogSensorHumidity::Get_val(){
-		float toreturn;
-		toreturn = Capteur::Get_val();
-		cout <<"Valeur mesure humidite" <<endl;
-		return toreturn;
-  }*/
 
 
   void AnalogSensorHumidity::run(){
@@ -103,19 +95,12 @@ float AnalogSensorHumidity::Get_val(){
 //////////////////////////// CLASSE CAPTEUR CO2 //////////////////////////////////////////
 
   //constructeur
-AnalogSensorCO2::AnalogSensorCO2 (int d, float v):Capteur(d, v){
+AnalogSensorCO2::AnalogSensorCO2 (int d, int v):Capteur(d, v){
 	cout <<"Capteur CO2 initialise"<<endl;
-	val_max=0.5 ; //peut etre passer a 50 ? Chiffres apres la virgule = remplaces par des zeros
+	val_max=50 ; //peut etre passer a 50 ? Chiffres apres la virgule = remplaces par des zeros
 	val_min=0.0;
 }
 
-/*
-float AnalogSensorCO2::Get_val(){
-	float toreturn;
-	toreturn = Capteur::Get_val();
-	cout <<"Valeur mesure CO2" <<endl;
-	return toreturn;
-}*/
 
 void AnalogSensorCO2::run(){
 	  while(1){
@@ -132,12 +117,10 @@ void AnalogSensorCO2::run(){
 
 Actionneur ::Actionneur():Device(){
 	temps=1;
-	//cout <<"Actionneur initialise"<<endl;
 }
 
 Actionneur ::Actionneur (int d):Device(){
 	temps=d;
-	//cout <<"Actionneur initialise - constructeur bis" <<endl;
 }
 
 
@@ -145,6 +128,7 @@ Actionneur ::Actionneur (int d):Device(){
 /////////////////////////CLASSE LAMPE /////////////////////////////////////////////
 
 Lampe::Lampe(int t):Actionneur(t), state(LOW){
+	cout <<"lampe initialisee"<<endl;
 }
 
 void Lampe::run(){
@@ -153,11 +137,10 @@ void Lampe::run(){
 	  if(ptrmem!=NULL)
 	    state=*ptrmem;
 	  if (state==LOW){
-		  cout << "((((Lampe eteinte))))\n";
-		  //Environnement::Set_lum(15.0);;
+		  cout << "---- Lampe eteinte ----\n";
 	  }
 	  else {
-		  cout << "((((Lampe allumee))))\n";
+		  cout << "---- Lampe allumee ----\n";
 		  Environnement::Set_lum(17.0);
 	  }
 	  sleep(temps);
@@ -165,24 +148,12 @@ void Lampe::run(){
 }
 
 
-  /*float Lampe::read_lum(){
-	  float toreturn = Environnement :: luminosity;
-	  //float toreturn2 = AnalogSensorLuminosity::Get_val();
-	  return toreturn;
-  }*/
-
-  //void LED::set_lum(float v); // a ecrire
-
   void Lampe::Allumer(){
 	  state=HIGH;
   }
   void Lampe::Eteindre(){
 	  state=LOW;
   }
-
-  int Lampe::main(){
-	  return 0;
-  } // a ecrire
 
 
 ////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
@@ -218,13 +189,12 @@ Moteur::Moteur(int d):Actionneur(d){
 		  }
 
 		  if (speed==0){
-			  cout << "---- Ventilateur eteint -----\n";
-			  //Environnement::Set_temp(22.5);
+			  cout << "---- Ventilateur eteint ----\n";
 		  }
 
 		  else {
-			  cout << "---- Ventilateur allume-------\n";
-			  cout<<"---- Ventilateur vitesse "<< speed << endl;
+			  cout << "---- Ventilateur allume ----\n";
+			  cout<<"---- Ventilateur vitesse "<< speed <<" ----\n";
 			  Environnement::Set_temp(Environnement::Get_temp()-5);
 		  }
 		  sleep(temps);
@@ -241,9 +211,6 @@ Moteur::Moteur(int d):Actionneur(d){
 		speed = sp;
 		//a faire plus tard : fonction de saisie au clavier
 	}
-	int Ventilateur ::main(){
-		return 0;
-	} // a ecrire
 
 
 
@@ -268,12 +235,11 @@ Moteur::Moteur(int d):Actionneur(d){
                 }
 		  }
 		  if (speed==0) {
-			  cout << "---- Chauffage eteint -----\n";
-			  //Environnement::Set_temp(22.5);
+			  cout << "---- Chauffage eteint ----\n";
 		  }
 		  else {
-			  cout << "---- Chauffage allume-------\n";
-			  cout<<"---- Chauffage : vitesse "<< speed << endl;
+			  cout << "---- Chauffage allume ----\n";
+			  cout<<"---- Chauffage : vitesse "<< speed << " ----\n"<<endl;
 			  Environnement::Set_temp(Environnement::Get_temp()+5);
 		  }
 		  sleep(temps);
@@ -284,9 +250,6 @@ Moteur::Moteur(int d):Actionneur(d){
 	void Chauffage ::Write_speed(int sp){
 		speed=sp;
 	}
-	int Chauffage ::main(){
-		return 0;
-	} // a ecrire
 
 
 
@@ -294,27 +257,27 @@ Moteur::Moteur(int d):Actionneur(d){
 //Ici la vitesse n'est pas pertinente,on ne regarde que la position
 
 	MoteurFenetre::MoteurFenetre(int d):Moteur(d){
+		cout <<"moteur fenetre initialise"<<endl;
 		max_pos=50;
 	}
 
 	void MoteurFenetre::run(){
 		while(1){
 		  if(ptrmem!=NULL){
-                if (*ptrmem<max_pos)
+                if (*ptrmem<max_pos){
                     position=*ptrmem;
-                else
-                    position=max_pos;
+                }
+                else {position=max_pos;
+                }    
 		  }
-			position=*ptrmem;
+			
 		  if (position==0){
-			  cout << "---- Fenetre fermee -----\n";
-			  //Environnement::Set_hum(Environnement::Get_hum()+0.1);
+			  cout << "---- Fenetre fermee ----\n";
 		  }
 		  else {
-			  cout << "---- Fenetre ouverte-------\n";
-			  cout<<"---- Angle fenetre "<< position << endl;
+			  cout << "---- Fenetre ouverte ----\n";
+			  cout<<"---- Angle fenetre "<< position << " ----\n"<<endl;
 			  Environnement::Set_hum(Environnement::Get_hum()-10);
-			  //Environnement::Set_hum(0.3);
 		  }
 		  sleep(temps);
 		}
@@ -326,11 +289,6 @@ Moteur::Moteur(int d):Actionneur(d){
 	void MoteurFenetre::Write_pos(int p){
 		position=p;
 	}
-
-
-	int MoteurFenetre ::main(){
-		return 0;
-	} // a ecrire
 
 
 	void MoteurFenetre::Ouvrir_fenetre(){
@@ -357,6 +315,7 @@ Moteur::Moteur(int d):Actionneur(d){
 
 
 		Arrosage::Arrosage(int d):Actionneur(d){
+			cout <<"arrosage initialise"<<endl;
 		}
 
 		void Arrosage::run(){
@@ -364,32 +323,16 @@ Moteur::Moteur(int d):Actionneur(d){
 			  if(ptrmem!=NULL)
 			    state=*ptrmem;
 			  if (state==LOW){
-			    cout << "----- Arrosage eteint ------\n";
-			    //Environnement::Set_hum(0.4);
+			    cout << "---- Arrosage eteint ----\n";
 			  }
 
 			  else {
-				  cout << "----- Arrosage allume ------\n";
+				  cout << "---- Arrosage allume ----\n";
 				  Environnement::Set_hum(Environnement::Get_hum()+10);
 			  }
 			  sleep(temps);
 			  }
 		}
-		//void set_humidite(float hum){}
-
-		/*
-		float Arrosage::read_humidite(){
-			//AnalogSensorHumidity hum = new AnalogSensorHumidity(0.0, 1, 0.4);
-			float toreturn = Environnement :: humidity;
-			//float toreturn2 = hum.Get_val();
-			return toreturn;
-		}*/
-
-		int Arrosage::main(){
-			return 0;
-		}
-
-
 
 
 

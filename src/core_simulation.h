@@ -16,12 +16,7 @@
 #include <thread>
 #include <mutex>
 
-
-#define DELAY 2
-#define TEMP 22.5
-#define LUM 15.5
-#define HUM 0.6
-#define DIOX 0.0004
+#define DELAY 3
 #define HIGH 1
 #define LOW 0
 #define MAX_I2C_DEVICES 4

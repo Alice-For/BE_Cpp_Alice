@@ -5,6 +5,7 @@
 #define PIN_HUMIDITE 10
 #define PIN_TEMPERATURE 9
 #define PIN_LUMIERE 11
+#define PIN_CO2 12
 #define PIN_CHAUFFAGE 5
 #define PIN_VENTILATEUR 6
 #define PIN_FENETRE 4
@@ -19,7 +20,7 @@ int main(){
   AnalogSensorTemperature temperature(DELAY,Environnement::Get_temp());
   AnalogSensorLuminosity lumiere(DELAY,Environnement::Get_lum());
   AnalogSensorHumidity humidite(DELAY, Environnement::Get_hum());
-  //AnalogSensorCO2 dioxyde(DELAY, Environnement::Get_CO2());
+  AnalogSensorCO2 dioxyde(DELAY, Environnement::Get_CO2());
   
   MoteurFenetre turbo(DELAY);
   Chauffage feu(DELAY);			//-> ok :)
@@ -33,7 +34,7 @@ int main(){
   esp8266.pin(PIN_TEMPERATURE,temperature);
   esp8266.pin(PIN_HUMIDITE,humidite);
   esp8266.pin(PIN_LUMIERE,lumiere);
-  //esp8266.pin(3,dioxyde);
+  esp8266.pin(PIN_CO2,dioxyde);
   
   // branchement des actionneurs
   esp8266.pin(PIN_FENETRE,turbo);
