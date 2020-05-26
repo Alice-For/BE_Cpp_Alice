@@ -15,3 +15,10 @@ Il comporte également 5 actionneurs :
 - un système d'arrosage à deux états (robinet ouvert / fermé)
 
 Nous supposons que les mesures sont prises à une fréquence très faible : une mesure toutes les 30 min/1h par ex. En effet, la plante n'a pas besoin d'un taux d'humidité optimal en permanence, elle possède une certaine souplesse.
+
+Architecture du projet :
+- board.cpp contient la définition des capteurs et des actionneurs et leur emplacement sur la carte Arduino
+- core_simulation.cpp et core_simulation.h contiennent les définitions des classes nécessaires à la simulation de la carte. Nous n'y avons pas touché
+- environnement.cpp et environnement.h correspond à la définition des classes Plante, Environnement et MyApplication. La classe Plante caractérise les besoins de la plante et son "énergie" (nous l'avons imaginée comme un personnage de jeu vidéo qui perd des points de vie si elle reste trop longtemps dans de mauvaises conditions). La classe Environnement contient avant tout les paramètres d'environnement (température, humidité, luminosité, taux de CO2 dans l'air). La classe MyApplication s'occupe d'envoyer les ordres aux actionneurs en fonction de l'état de la plante.
+- mydevices.cpp et mydevices.h regroupent les déclarations des différents capteurs / actionneurs. Tous sont des Device, répartis entre les Capteurs et les Actionneurs (qui eux-mêmes sont divisés en Lampe, Moteur et Arrosage).
+- sketch_ino.cpp contient les fonctions Board::setup() et Board::loop() dans lesquelles ont lieu la simulation.
