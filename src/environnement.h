@@ -69,7 +69,7 @@ public :
 	int NbPlantes ;
 	//fonction pour ajouter de nouvelles plantes ? Avec une liste ?
 	MyApplication();
-	static bool main(Plante *plantain, int *commandTab);
+	static bool main(Plante *plantain, int *commandTab, bool *MemoireLampe);
 };
 
 

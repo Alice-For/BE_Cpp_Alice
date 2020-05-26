@@ -7,10 +7,10 @@ using namespace std;
 Environnement::Environnement(){}
 
 //initialisation des variables statiques
-float Environnement::luminosity = 15.0; //kilolux (different des lumens)
-float Environnement::temperature = 20; //22.000000
+float Environnement::luminosity = 7; //kilolux (different des lumens)
+float Environnement::temperature = 40; //22.000000
 float Environnement::CO2 = 0.0003;		//0.000000
-float Environnement::humidity=0.70;
+float Environnement::humidity=40;
 
 
 float Environnement::Get_lum(void){	
@@ -97,10 +97,10 @@ void Plante::UpdateEnergy(){
 	
 	int Plante::IsThirsty(){ //-> 0 si OK / 1 si soif /2 si trop humide
 		int soif;
-		if (Environnement::Get_hum() < 0.6){
+		if (Environnement::Get_hum() < 60){
 			soif = 1;
 		}
-		else if (Environnement::Get_hum() > 0.9){
+		else if (Environnement::Get_hum() > 90){
 			soif = 2;
 		}
 		else {
@@ -184,7 +184,7 @@ MyApplication::MyApplication(){
 }
 
 
-bool MyApplication::main(Plante *plantain, int *commandTab){
+bool MyApplication::main(Plante *plantain, int *commandTab, bool *MemoireLampe){
 	bool EnVie;
 	
 	if (!(plantain->IsAlive())){
@@ -239,12 +239,18 @@ bool MyApplication::main(Plante *plantain, int *commandTab){
 		if (plantain->NeedsLight()){
 			//Actionneur lampe se met en route
 			cout<<"Plante : J'ai peur du noir ! :("<<endl;
+			*MemoireLampe=true;
 			commandTab[3]=1;
+			
 		}
-		if (!(plantain->NeedsLight())){
-			//extinction lampe
-			commandTab[3]=0;
+		if (!(plantain->NeedsLight())){ //extinction lampe
 			cout<<"Plante : vive la lumiere :) "<<endl;
+			if (MemoireLampe){
+				commandTab[3]=1;
+			}
+			else {
+				commandTab[3]=0;
+			}
 		}
 	}
 	

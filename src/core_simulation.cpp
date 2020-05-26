@@ -121,6 +121,7 @@ void Device::setI2CAddr(int addr, I2C * bus){
 void Board::run(){
   try{
     setup();
+    //Plante *cactus=new Plante;
     while(1) loop();
   }
   catch(BoardException e){

@@ -153,11 +153,11 @@ void Lampe::run(){
 	  if(ptrmem!=NULL)
 	    state=*ptrmem;
 	  if (state==LOW){
-		  cout << "((((eteint))))\n";
-		  Environnement::Set_lum(15.0);;
+		  cout << "((((Lampe eteinte))))\n";
+		  //Environnement::Set_lum(15.0);;
 	  }
 	  else {
-		  cout << "((((allume))))\n";
+		  cout << "((((Lampe allumee))))\n";
 		  Environnement::Set_lum(17.0);
 	  }
 	  sleep(temps);
@@ -295,7 +295,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		  else {
 			  cout << "---- Fenetre ouverte-------\n";
 			  cout<<"---- Angle fenetre "<< position << endl;
-			  Environnement::Set_hum(Environnement::Get_hum()-0.1);
+			  Environnement::Set_hum(Environnement::Get_hum()-10);
 			  //Environnement::Set_hum(0.3);
 		  }
 		  sleep(temps);
@@ -352,7 +352,7 @@ Moteur::Moteur(int d):Actionneur(d){
 			  		  
 			  else {
 				  cout << "----- Arrosage allume ------\n";
-				  Environnement::Set_hum(Environnement::Get_hum()+0.1);
+				  Environnement::Set_hum(Environnement::Get_hum()+10);
 			  }
 			  sleep(temps);
 			  }
