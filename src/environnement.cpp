@@ -8,8 +8,8 @@ Environnement::Environnement(){}
 
 //initialisation des variables statiques
 float Environnement::luminosity = 15.0; //kilolux (different des lumens)
-float Environnement::temperature = 27;
-float Environnement::CO2 = 0.0003;
+float Environnement::temperature = 20; //22.000000
+float Environnement::CO2 = 0.0003;		//0.000000
 float Environnement::humidity=0.70;
 
 
@@ -141,7 +141,7 @@ void Plante::UpdateEnergy(){
 		if (Environnement::Get_temp()<15.0){ //trop froid
 			chaleur=2;
 		}
-		else if (Environnement::Get_temp()>25.0){ //trop chaud
+		else if (Environnement::Get_temp()>24.0){ //trop chaud
 			chaleur=1;
 		}
 		else { // tout va bien :)
@@ -184,13 +184,12 @@ MyApplication::MyApplication(){
 }
 
 
-bool MyApplication::main(Plante *plantain, int *commandTab, int NbCmd){
-	commandTab= new int[5];
+bool MyApplication::main(Plante *plantain, int *commandTab){
 	bool EnVie;
 	
 	if (!(plantain->IsAlive())){
 		//arreter tous les actionneurs
-		for(int i=0;i<=NbCmd;i++) commandTab[i]=0;
+		for(int i=0;i<=4;i++) commandTab[i]=0;
 		EnVie=false;
 	}
 	else {
@@ -229,7 +228,7 @@ bool MyApplication::main(Plante *plantain, int *commandTab, int NbCmd){
 			//arret ventilateur
 			commandTab[2]=0;
 			commandTab[1]=10;
-			cout<<"Plante : il fait il fait froid :("<<endl;
+			cout<<"Plante : il fait froid :("<<endl;
 		}
 		else if ((plantain->NeedsHeat()) ==0){ //chaleur suffisante
 			//arret chauffage et ventilateur
@@ -249,8 +248,8 @@ bool MyApplication::main(Plante *plantain, int *commandTab, int NbCmd){
 		}
 	}
 	
-	for (int i=0;i<NbCmd;i++){
-		cout<<commandTab[i];
+	for (int i=0;i<5;i++){
+		cout<<commandTab[i]<<" ";
 	}
 	cout<<endl;
 	

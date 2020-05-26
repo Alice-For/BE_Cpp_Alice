@@ -139,43 +139,6 @@ Actionneur ::Actionneur (int d):Device(){
 	temps=d;
 	//cout <<"Actionneur initialise - constructeur bis" <<endl;
 }
-///////////////////////////CLASSE ARROSAGE //////////////////////////////////////////
-
-
-	Arrosage::Arrosage(int d):Actionneur(d){
-	}
-	
-	void Arrosage::run(){
-		while(1){
-		  if(ptrmem!=NULL)
-		    state=*ptrmem;
-		  if (state==LOW){
-		    cout << "----- Arrosage eteint ------\n";
-		    Environnement::Set_hum(0.4);
-		  }
-		  		  
-		  else {
-			  cout << "----- Arrosage allume ------\n";
-			  Environnement::Set_hum(0.6);
-		  }
-		  sleep(temps);
-		  }
-	}
-	//void set_humidite(float hum){}
-	
-	/*
-	float Arrosage::read_humidite(){
-		//AnalogSensorHumidity hum = new AnalogSensorHumidity(0.0, 1, 0.4);
-		float toreturn = Environnement :: humidity;
-		//float toreturn2 = hum.Get_val();
-		return toreturn;		
-	}*/
-	
-	int Arrosage::main(){
-		return 0;
-	}
-	
-
 
 
 
@@ -255,7 +218,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		  else {
 			  cout << "---- Ventilateur allume-------\n";
 			  cout<<"---- Ventilateur vitesse "<< speed << endl;
-			  Environnement::Set_temp(Environnement::Get_temp()-1);
+			  Environnement::Set_temp(Environnement::Get_temp()-5);
 		  }
 		  sleep(temps);
 		  }
@@ -298,7 +261,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		  else {
 			  cout << "---- Chauffage allume-------\n";
 			  cout<<"---- Chauffage : vitesse "<< speed << endl;
-			  Environnement::Set_temp(Environnement::Get_temp()+1);	  
+			  Environnement::Set_temp(Environnement::Get_temp()+5);	  
 		  }
 		  sleep(temps);
 		  }	
@@ -327,12 +290,13 @@ Moteur::Moteur(int d):Actionneur(d){
 			position=*ptrmem;
 		  if (position==0){
 			  cout << "---- Fenetre fermee -----\n";
-			  Environnement::Set_hum(0.4);
+			  //Environnement::Set_hum(Environnement::Get_hum()+0.1);
 		  }
 		  else {
 			  cout << "---- Fenetre ouverte-------\n";
 			  cout<<"---- Angle fenetre "<< position << endl;
-			  Environnement::Set_hum(0.3);
+			  Environnement::Set_hum(Environnement::Get_hum()-0.1);
+			  //Environnement::Set_hum(0.3);
 		  }
 		  sleep(temps);
 		}
@@ -369,6 +333,45 @@ Moteur::Moteur(int d):Actionneur(d){
 			sleep(1);
 		}
 	}	
+
+	
+	///////////////////////////CLASSE ARROSAGE //////////////////////////////////////////
+
+
+		Arrosage::Arrosage(int d):Actionneur(d){
+		}
+		
+		void Arrosage::run(){
+			while(1){
+			  if(ptrmem!=NULL)
+			    state=*ptrmem;
+			  if (state==LOW){
+			    cout << "----- Arrosage eteint ------\n";
+			    //Environnement::Set_hum(0.4);
+			  }
+			  		  
+			  else {
+				  cout << "----- Arrosage allume ------\n";
+				  Environnement::Set_hum(Environnement::Get_hum()+0.1);
+			  }
+			  sleep(temps);
+			  }
+		}
+		//void set_humidite(float hum){}
+		
+		/*
+		float Arrosage::read_humidite(){
+			//AnalogSensorHumidity hum = new AnalogSensorHumidity(0.0, 1, 0.4);
+			float toreturn = Environnement :: humidity;
+			//float toreturn2 = hum.Get_val();
+			return toreturn;		
+		}*/
+		
+		int Arrosage::main(){
+			return 0;
+		}
+		
+
 
 
 
