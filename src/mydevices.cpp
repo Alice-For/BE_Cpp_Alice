@@ -13,7 +13,7 @@ Capteur ::Capteur():Device(){
 	val=0;
 	ptrmem=0;
 }
-
+Capteur ::~Capteur(){}
 Capteur ::Capteur(int d, int v):Device(), temps(d), val(v){
 	ptrmem=0;
 }
@@ -28,7 +28,7 @@ AnalogSensorLuminosity::AnalogSensorLuminosity(int d, int v):Capteur(d, v) {
 	val_min=1;
 	cout <<"Capteur luminosite initialise"<<endl;
 }
-
+AnalogSensorLuminosity::~AnalogSensorLuminosity(){}
 /*
 float AnalogSensorLuminosity::Get_val(){
 	float toreturn;
@@ -54,7 +54,7 @@ AnalogSensorTemperature::AnalogSensorTemperature(int d, int v):Capteur(d, v){
 	val_max=150;
 	val_min=-50;
 }
-
+AnalogSensorTemperature::~AnalogSensorTemperature(){}
 /*
 float AnalogSensorTemperature::Get_val(){
 	float toreturn;
@@ -80,6 +80,7 @@ AnalogSensorHumidity::AnalogSensorHumidity (int d, int v):Capteur(d, v){
 	val_max=100;
 	val_min=0.0;
 }
+AnalogSensorHumidity::~AnalogSensorHumidity (){}
 
 
   void AnalogSensorHumidity::run(){
@@ -100,6 +101,7 @@ AnalogSensorCO2::AnalogSensorCO2 (int d, int v):Capteur(d, v){
 	val_max=50 ; //peut etre passer a 50 ? Chiffres apres la virgule = remplaces par des zeros
 	val_min=0.0;
 }
+AnalogSensorCO2::~AnalogSensorCO2 (){}
 
 
 void AnalogSensorCO2::run(){
@@ -122,7 +124,7 @@ Actionneur ::Actionneur():Device(){
 Actionneur ::Actionneur (int d):Device(){
 	temps=d;
 }
-
+Actionneur ::~Actionneur(){}
 
 
 /////////////////////////CLASSE LAMPE /////////////////////////////////////////////
@@ -130,6 +132,7 @@ Actionneur ::Actionneur (int d):Device(){
 Lampe::Lampe(int t):Actionneur(t), state(LOW){
 	cout <<"lampe initialisee"<<endl;
 }
+Lampe::~Lampe(){}
 
 void Lampe::run(){
 
@@ -171,7 +174,7 @@ Moteur::Moteur(int d):Actionneur(d){
 	}
 
 	//virtual void Moteur::run()=0; //fonction virtuelle pure
-
+	Moteur::~Moteur(){}
 
 /////////////////////////////CLASSE VENTILATEUR //////////////////////////////////////////////////
 //Ici la position n'est pas pertinente,on ne regarde que la vitesse
@@ -205,6 +208,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		cout <<"ventilateur initialise"<<endl;
 		max_speed=10;
 	}
+	Ventilateur ::~Ventilateur(){}
 
 
 	void Ventilateur ::Write_speed(int sp){
@@ -221,6 +225,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		cout <<"chauffage initialise"<<endl;
 		max_speed=10;
 	}
+	Chauffage::~Chauffage(){}
 
 	void Chauffage ::run(){
 
@@ -260,6 +265,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		cout <<"moteur fenetre initialise"<<endl;
 		max_pos=50;
 	}
+	MoteurFenetre::~MoteurFenetre(){}
 
 	void MoteurFenetre::run(){
 		while(1){
@@ -317,6 +323,7 @@ Moteur::Moteur(int d):Actionneur(d){
 		Arrosage::Arrosage(int d):Actionneur(d){
 			cout <<"arrosage initialise"<<endl;
 		}
+		Arrosage::~Arrosage(){}
 
 		void Arrosage::run(){
 			while(1){
@@ -345,6 +352,7 @@ Moteur::Moteur(int d):Actionneur(d){
 //classe DigitalActuatorLED
 DigitalActuatorLED::DigitalActuatorLED(int t):Device(),state(LOW),temps(t){
 }
+DigitalActuatorLED::~DigitalActuatorLED(){}
 
 void DigitalActuatorLED::run(){
   while(1){
@@ -363,6 +371,7 @@ void DigitalActuatorLED::run(){
 //classe IntelligentDigitalActuatorLED
 IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):Device(),state(LOW),temps(t){
 }
+IntelligentDigitalActuatorLED::~IntelligentDigitalActuatorLED(){}
 
 void IntelligentDigitalActuatorLED::run(){
 	//AnalogSensorLuminosity truc(DELAY,LUM);
@@ -391,6 +400,7 @@ void IntelligentDigitalActuatorLED::run(){
 // classe I2CActuatorScreen
 I2CActuatorScreen::I2CActuatorScreen ():Device(){
   }
+I2CActuatorScreen::~I2CActuatorScreen (){}
 
 void I2CActuatorScreen::run(){
   while(1){
@@ -403,7 +413,7 @@ void I2CActuatorScreen::run(){
 }
 
 ExternalDigitalSensorButton::ExternalDigitalSensorButton():Device(){}
-
+ExternalDigitalSensorButton::~ExternalDigitalSensorButton(){}
 int ExternalDigitalSensorButton :: DetectButton(){
 	int appui;
 

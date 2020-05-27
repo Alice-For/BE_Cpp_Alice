@@ -21,6 +21,7 @@ protected :
 public :
 
 	Environnement();
+	~Environnement();
 
 	static int Get_lum(void);
 	static int Get_temp(void);
@@ -45,6 +46,7 @@ protected :
 
 public :
 	Plante();
+	~Plante();
 	void UpdateEnergy(int temp, int hum, int lum, int co2);
 	bool IsAlive(int temp, int hum, int lum, int co2);
 	int IsThirsty(int hum);

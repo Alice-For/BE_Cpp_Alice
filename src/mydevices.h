@@ -24,6 +24,7 @@ protected :
 	
 public :
 	Capteur();
+	~Capteur();
 	Capteur(int d, int v);
 
 };
@@ -31,6 +32,7 @@ public :
 class AnalogSensorLuminosity: public Capteur {
 public :
 	AnalogSensorLuminosity(int d, int v);
+	~AnalogSensorLuminosity();
 
 	virtual void run();
 };
@@ -43,6 +45,7 @@ class AnalogSensorTemperature: public Capteur {
 public:
   //constructeur
   AnalogSensorTemperature(int d, int v);
+  ~AnalogSensorTemperature();
   virtual void run();
 };
 
@@ -53,6 +56,7 @@ class AnalogSensorHumidity: public Capteur {
 public:
   //constructeur
   AnalogSensorHumidity (int d, int v);
+  ~AnalogSensorHumidity ();
   virtual void run();
 };
 
@@ -63,6 +67,7 @@ class AnalogSensorCO2: public Capteur {
 public:
   //constructeur
   AnalogSensorCO2 (int d, int v);
+  ~AnalogSensorCO2 ();
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
@@ -78,6 +83,7 @@ protected :
 	
 public :
 	Actionneur();
+	~Actionneur();
 	Actionneur (int d);
 };
 
@@ -87,6 +93,7 @@ private :
 	int state;
 public :
 	Arrosage(int d);
+	~Arrosage();
 	virtual void run();
 	
 };
@@ -102,6 +109,7 @@ private:
 public:
     // initialisation du temps de rafraichissement
   Lampe (int t);
+  ~Lampe ();
   // thread representant l'actionneur et permettant de fonctionner independamment de la board
   virtual void run();
   
@@ -121,6 +129,7 @@ protected :
 	
 public :
 	Moteur(int d);
+	~Moteur();
 	virtual void run()=0;
 	int read_speed();
 	int read_position();
@@ -134,6 +143,7 @@ class Ventilateur : public Moteur{
 public :
 	virtual void run();
 	Ventilateur(int d);
+	~Ventilateur();
 	void Write_speed(int sp);
 };
 
@@ -144,6 +154,7 @@ class Chauffage : public Moteur{
 public :
 	virtual void run();
 	Chauffage(int d);
+	~Chauffage();
 	void Write_speed(int sp);
 };
 
@@ -154,7 +165,7 @@ public :
 class MoteurFenetre : public Moteur{
 public :
 	MoteurFenetre(int d);
-	
+	~MoteurFenetre();
 	virtual void run();
 	
 	void Write_pos(int p);
@@ -176,6 +187,7 @@ private:
 public:
     // initialisation du temps de rafraichiisement
   DigitalActuatorLED(int t);
+  ~DigitalActuatorLED();
   // thread representant l'actionneur et permettant de fonctionner independamment de la board
   virtual void run();
 };
@@ -191,6 +203,7 @@ private:
 public:
     // initialisation du temps de rafraichiisement
   IntelligentDigitalActuatorLED(int t);
+  ~IntelligentDigitalActuatorLED();
   // thread representant l'actionneur et permettant de fonctionner independamment de la board
   virtual void run();
 	
@@ -206,6 +219,7 @@ protected:
 public:
   // constructeur
   I2CActuatorScreen ();
+  ~I2CActuatorScreen ();
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
@@ -215,6 +229,7 @@ class ExternalDigitalSensorButton: public Device {
 	
 public :
 	ExternalDigitalSensorButton();
+	~ExternalDigitalSensorButton();
 	
 	int DetectButton();
 	

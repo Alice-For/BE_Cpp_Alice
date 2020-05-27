@@ -5,12 +5,25 @@ using namespace std;
 ////////////////////////// CLASSE ENVIRONNEMENT ////////////////////////////////////////
 
 Environnement::Environnement(){}
+Environnement::~Environnement(){}
 
-//initialisation des variables statiques
-int Environnement::luminosity = 7; 
+//initialisation des variables statiques - test1 -> temperature et humidite
+int Environnement::luminosity = 15; 
 int Environnement::temperature = 40; 
 int Environnement::CO2 = 3;
 int Environnement::humidity=40;
+
+//initialisation des variables statiques - test2 -> temperature et luminosite
+/*int Environnement::luminosity = 7; 
+int Environnement::temperature = 0; 
+int Environnement::CO2 = 3;
+int Environnement::humidity=70;*/
+
+//initialisation des variables statiques - test3 -> humidite et luminosite
+/*int Environnement::luminosity = 7; 
+int Environnement::temperature = 20; 
+int Environnement::CO2 = 3;
+int Environnement::humidity=100;*/
 
 
 int Environnement::Get_lum(void){
@@ -57,6 +70,7 @@ Plante ::Plante(){
 	NbPlantes+=1;
 	cout<<"Une nouvelle plante ! Youpi !"<<endl;
 }
+Plante ::~Plante(){}
 
 void Plante::UpdateEnergy(int temp, int hum, int lum, int co2){
 	if (IsThirsty(hum)==1 ||IsThirsty(hum)==2 || NeedsLight(lum) || NeedsHeat(temp)==1 || NeedsHeat(temp)==2 || NeedsMoreCO2(co2)){
