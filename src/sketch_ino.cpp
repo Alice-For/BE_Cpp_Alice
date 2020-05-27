@@ -105,7 +105,7 @@ void Board::loop(){
     digitalWrite(PIN_ARROSAGE, CommandTab[4]);		//arrosage
 
     delete CommandTab;
-    sleep(3);
+    sleep(2);
 
   }
   }
