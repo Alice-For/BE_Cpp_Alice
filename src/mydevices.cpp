@@ -33,8 +33,20 @@ AnalogSensorLuminosity::~AnalogSensorLuminosity(){}
 
 void AnalogSensorLuminosity::run(){
   while(1){
-    if(ptrmem!=NULL)
-      *ptrmem=Environnement::Get_lum();
+    if(ptrmem!=NULL){
+    	int Lumi = Environnement::Get_lum();
+		if (Lumi>=val_max){
+			*ptrmem=val_max;
+			cout <<"Luminosite : valeur max depassee"<<endl;
+		}
+		else if (Lumi<=val_min){
+			*ptrmem=val_min;
+			cout <<"Luminosite : valeur min depassee"<<endl;
+		}
+		else {
+			*ptrmem=Lumi;
+		}
+    }
     sleep(temps);
   }
 }
@@ -45,15 +57,27 @@ void AnalogSensorLuminosity::run(){
 //classe AnalogSensorTemperature
 AnalogSensorTemperature::AnalogSensorTemperature(int d, int v):Capteur(d, v){
 	cout <<"Capteur temperature initialise"<<endl;
-	val_max=150;
-	val_min=-50;
+	val_max=300;
+	val_min=-150;
 }
 AnalogSensorTemperature::~AnalogSensorTemperature(){}
 
 void AnalogSensorTemperature::run(){
   while(1){
-    if(ptrmem!=NULL)
-      *ptrmem=Environnement::Get_temp();
+    if(ptrmem!=NULL){
+    	int tempe = Environnement::Get_temp();
+    	if (tempe>=val_max){
+    		*ptrmem=val_max;
+    		cout <<"Temperature : valeur max depassee"<<endl;
+    	}
+    	else if (tempe<=val_min){
+    		*ptrmem=val_min;
+    		cout <<"Temperature : valeur min depassee"<<endl;
+    	}
+    	else {
+    		*ptrmem=tempe;
+    	}    	
+    }
     sleep(temps);
   }
 }
@@ -65,15 +89,27 @@ void AnalogSensorTemperature::run(){
 AnalogSensorHumidity::AnalogSensorHumidity (int d, int v):Capteur(d, v){
 	cout <<"Capteur humidite initialise"<<endl;
 	val_max=100;
-	val_min=0.0;
+	val_min=0;
 }
 AnalogSensorHumidity::~AnalogSensorHumidity (){}
 
 
   void AnalogSensorHumidity::run(){
 	  while(1){
-	    if(ptrmem!=NULL)
-	      *ptrmem=Environnement::Get_hum();;
+	    if(ptrmem!=NULL){
+	    	int humi = Environnement::Get_hum();
+			if (humi>=val_max){
+				*ptrmem=val_max;
+				cout <<"Humidite : valeur max depassee"<<endl;
+			}
+			else if (humi<=val_min){
+				*ptrmem=val_min;
+				cout <<"Humidite : valeur min depassee"<<endl;
+			}
+			else {
+				*ptrmem=humi;
+			}
+	    }
 	    sleep(temps);
 	  }
   }
@@ -86,15 +122,27 @@ AnalogSensorHumidity::~AnalogSensorHumidity (){}
 AnalogSensorCO2::AnalogSensorCO2 (int d, int v):Capteur(d, v){
 	cout <<"Capteur CO2 initialise"<<endl;
 	val_max=50 ;
-	val_min=0.0;
+	val_min=0;
 }
 AnalogSensorCO2::~AnalogSensorCO2 (){}
 
 
 void AnalogSensorCO2::run(){
 	  while(1){
-	    if(ptrmem!=NULL)
-	      *ptrmem=Environnement::Get_CO2();;
+	    if(ptrmem!=NULL){
+	    	int Co = Environnement::Get_CO2();
+			if (Co>=val_max){
+				*ptrmem=val_max;
+				cout <<"CO2 : valeur max depassee"<<endl;
+			}
+			else if (Co<=val_min){
+				*ptrmem=val_min;
+				cout <<"CO2 : valeur min depassee"<<endl;
+			}
+			else {
+				*ptrmem=Co;
+			}
+	    }
 	    sleep(temps);
 	  }
 }

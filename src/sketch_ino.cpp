@@ -53,6 +53,10 @@ void Board::loop(){
 	 bool *MemoireLampe=new bool ;
 	 *MemoireLampe= false;
 	  int *CommandTab=new int[5];
+	  int *TauxHum = new int;
+	  int *TauxTemp = new int;
+	  *TauxHum=0;
+	  *TauxTemp=0;
 	  for (int j=0;j<5;j++){
 		  CommandTab[j]=0;
 	  }
@@ -80,7 +84,7 @@ void Board::loop(){
      * */
 
 
-    Vivant = HappySeed ::main(val_t, val_h, val_l, val_c, cactus,CommandTab, MemoireLampe);
+    Vivant = HappySeed ::main(val_t, val_h, val_l, val_c, TauxHum, TauxTemp, cactus,CommandTab, MemoireLampe);
     if (!(Vivant)){
     	cout <<"Adieu la plante, vous n'avez pas la main verte !"<<endl;
     	exit(-1);
@@ -105,6 +109,8 @@ void Board::loop(){
     digitalWrite(PIN_ARROSAGE, CommandTab[4]);		//arrosage
 
     delete CommandTab;
+    delete TauxHum ;
+    delete TauxTemp ;
     sleep(3);
 
   }

@@ -10,6 +10,13 @@
 #include "core_simulation.h"
 #include "mydevices.h"
 
+#define MIN_EAU 60	//60 d'habitude
+#define MAX_EAU 90 //90 d'habitude, modif pour les tests
+#define MIN_LUM 10
+#define MIN_CO2 2
+#define MIN_TEMP 15
+#define MAX_TEMP 24
+
 
 class Environnement{
 protected :
@@ -38,21 +45,28 @@ public :
 class Plante{
 protected :
 
-
 	int Energy;
 	int MaxEnergy;
 	int MinEnergy;
 	int static NbPlantes;
+	int MinEau ;
+	int MaxEau ;
+	int MinTemp;
+	int MaxTemp ;
+	int MinLum ;
+	int MinCO2 ;
+	
+
 
 public :
 	Plante();
 	~Plante();
-	void UpdateEnergy(int temp, int hum, int lum, int co2);
-	bool IsAlive(int temp, int hum, int lum, int co2);
-	int IsThirsty(int hum);
+	void UpdateEnergy(int temp, int hum, int lum, int co2, int *TauxHum, int *TauxTemp);
+	bool IsAlive(int temp, int hum, int lum, int co2, int *TauxHum, int *TauxTemp);
+	int IsThirsty(int hum, int *TauxHum);
 	bool NeedsLight(int lum);
 	bool NeedsMoreCO2(int co2);
-	int NeedsHeat(int temp);
+	int NeedsHeat(int temp, int *TauxTemp);
 
 };
 
@@ -63,7 +77,7 @@ public :
 	int NbPlantes ;
 	//fonction pour ajouter de nouvelles plantes ? Avec une liste ?
 	HappySeed();
-	static bool main(int temp, int hum, int lum, int co2, Plante *plantain, int *commandTab, bool *MemoireLampe);
+	static bool main(int temp, int hum, int lum, int co2, int *TauxHum, int *TauxTemp, Plante *plantain, int *commandTab, bool *MemoireLampe);
 };
 
 #endif
