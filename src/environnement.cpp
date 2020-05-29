@@ -9,9 +9,9 @@ Environnement::~Environnement(){}
 
 //initialisation des variables statiques - test1 -> temperature et humidite
 int Environnement::luminosity = 15; 
-int Environnement::temperature = 40; 
+int Environnement::temperature = 0; 
 int Environnement::CO2 = 3;
-int Environnement::humidity=40;
+int Environnement::humidity=100;
 
 //initialisation des variables statiques - test2 -> temperature et luminosite
 /*int Environnement::luminosity = 7; 
@@ -64,8 +64,8 @@ void Environnement::Set_hum(int hum){
 int Plante::NbPlantes=0;
 
 Plante ::Plante(){
-	Energy = 20;
-	MaxEnergy=20;
+	Energy = 10;
+	MaxEnergy=10;
 	MinEnergy=0;
 	NbPlantes+=1;
 	cout<<"Une nouvelle plante ! Youpi !"<<endl;
@@ -201,7 +201,7 @@ bool HappySeed ::main(int temp, int hum, int lum, int co2, Plante *plantain, int
 			//ouverture fenetre
 			//arret de l'arrosage
 			commandTab[4]=0;
-			commandTab[0]=50;
+			commandTab[0]=34;
 		}
 		else if ((plantain->IsThirsty(hum))==0){
 			//fermeture fenetre
@@ -213,7 +213,7 @@ bool HappySeed ::main(int temp, int hum, int lum, int co2, Plante *plantain, int
 		if ((plantain->NeedsHeat(temp)) ==1){ //1 si trop chaud
 			//actionneur Ventilateur se met en route
 			//arret actionneur chauffage
-			commandTab[2]=10;
+			commandTab[2]=9;
 			commandTab[1]=0;
 			cout<<"Plante : il fait chaud :("<<endl;
 		}

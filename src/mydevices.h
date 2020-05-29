@@ -176,39 +176,6 @@ public :
 
 
 ////////////////////////////EXEMPLES D'ACTUATORS /////////////////////////////////////////////
-// exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
-class DigitalActuatorLED: public Device {
-private:
-  // etat de la LED
-  int state;
-  // temps entre 2 affichage de l etat de la led
-  int temps;
-  
-public:
-    // initialisation du temps de rafraichiisement
-  DigitalActuatorLED(int t);
-  ~DigitalActuatorLED();
-  // thread representant l'actionneur et permettant de fonctionner independamment de la board
-  virtual void run();
-};
-
-//LED intelligente (fille de LED ?)
-class IntelligentDigitalActuatorLED: public Device{
-private:
-  // etat de la LED
-  int state;
-  // temps entre 2 affichage de l etat de la led
-  int temps;
-  
-public:
-    // initialisation du temps de rafraichiisement
-  IntelligentDigitalActuatorLED(int t);
-  ~IntelligentDigitalActuatorLED();
-  // thread representant l'actionneur et permettant de fonctionner independamment de la board
-  virtual void run();
-	
-};
-
 
 // exemple d'actionneur sur le bus I2C permettant d'echanger des tableaux de caracteres : un ecran, ne pas oublier d'heriter de Device
 class I2CActuatorScreen : public Device{
@@ -224,7 +191,8 @@ public:
   virtual void run();
 };
 
-//Bouton exterieur
+
+//Bouton exterieur : peut peut-etre servir pour modifier "a la main" les parametres d'environnement
 class ExternalDigitalSensorButton: public Device {
 	
 public :

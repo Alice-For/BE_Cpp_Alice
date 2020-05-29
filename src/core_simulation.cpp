@@ -100,6 +100,14 @@ Device::Device(){
   i2cbus=NULL;
 }
 
+Device::~Device(){
+  delete ptrtype;
+  delete ptrmem;
+  i2caddr=-1;
+  delete i2cbus;
+  cout <<"end device"<<endl;
+}
+
 void Device::run(){
   while(1){
     cout << "empty device\n";

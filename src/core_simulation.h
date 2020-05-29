@@ -88,6 +88,8 @@ protected:
 public:
     // constructeur initialisant le minimum
     Device();
+    //destructeur associe
+    ~ Device();
     // boucle simulant l'equipement
     virtual void run();
     // lien entre le device et la carte arduino

@@ -29,13 +29,7 @@ AnalogSensorLuminosity::AnalogSensorLuminosity(int d, int v):Capteur(d, v) {
 	cout <<"Capteur luminosite initialise"<<endl;
 }
 AnalogSensorLuminosity::~AnalogSensorLuminosity(){}
-/*
-float AnalogSensorLuminosity::Get_val(){
-	float toreturn;
-	toreturn = Capteur::Get_val();
-	cout <<"Valeur mesure luminosite" <<endl;
-	return toreturn;
-}*/
+
 
 void AnalogSensorLuminosity::run(){
   while(1){
@@ -55,13 +49,6 @@ AnalogSensorTemperature::AnalogSensorTemperature(int d, int v):Capteur(d, v){
 	val_min=-50;
 }
 AnalogSensorTemperature::~AnalogSensorTemperature(){}
-/*
-float AnalogSensorTemperature::Get_val(){
-	float toreturn;
-	toreturn = Capteur::Get_val();
-	cout <<"Valeur mesure temperature" <<endl;
-	return toreturn;
-}*/
 
 void AnalogSensorTemperature::run(){
   while(1){
@@ -98,7 +85,7 @@ AnalogSensorHumidity::~AnalogSensorHumidity (){}
   //constructeur
 AnalogSensorCO2::AnalogSensorCO2 (int d, int v):Capteur(d, v){
 	cout <<"Capteur CO2 initialise"<<endl;
-	val_max=50 ; //peut etre passer a 50 ? Chiffres apres la virgule = remplaces par des zeros
+	val_max=50 ;
 	val_min=0.0;
 }
 AnalogSensorCO2::~AnalogSensorCO2 (){}
@@ -196,9 +183,10 @@ Moteur::Moteur(int d):Actionneur(d){
 		  }
 
 		  else {
+			  int temp = Environnement::Get_temp();
 			  cout << "---- Ventilateur allume ----\n";
 			  cout<<"---- Ventilateur vitesse "<< speed <<" ----\n";
-			  Environnement::Set_temp(Environnement::Get_temp()-5);
+			  Environnement::Set_temp(temp-(int)(speed/2));
 		  }
 		  sleep(temps);
 		  }
@@ -243,9 +231,10 @@ Moteur::Moteur(int d):Actionneur(d){
 			  cout << "---- Chauffage eteint ----\n";
 		  }
 		  else {
+			  int temp = Environnement::Get_temp();
 			  cout << "---- Chauffage allume ----\n";
 			  cout<<"---- Chauffage : vitesse "<< speed << " ----\n"<<endl;
-			  Environnement::Set_temp(Environnement::Get_temp()+5);
+			  Environnement::Set_temp(temp+(int)(speed/2));
 		  }
 		  sleep(temps);
 		  }
@@ -281,9 +270,10 @@ Moteur::Moteur(int d):Actionneur(d){
 			  cout << "---- Fenetre fermee ----\n";
 		  }
 		  else {
+			  int hum= Environnement::Get_hum();
 			  cout << "---- Fenetre ouverte ----\n";
 			  cout<<"---- Angle fenetre "<< position << " ----\n"<<endl;
-			  Environnement::Set_hum(Environnement::Get_hum()-10);
+			  Environnement::Set_hum(hum-(int)(position/5));
 		  }
 		  sleep(temps);
 		}
@@ -343,58 +333,7 @@ Moteur::Moteur(int d):Actionneur(d){
 
 
 
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////// CLASSE ACTIONNEUR LED //////////////////////////////////////////
-
-//classe DigitalActuatorLED
-DigitalActuatorLED::DigitalActuatorLED(int t):Device(),state(LOW),temps(t){
-}
-DigitalActuatorLED::~DigitalActuatorLED(){}
-
-void DigitalActuatorLED::run(){
-  while(1){
-    if(ptrmem!=NULL)
-      state=*ptrmem;
-    if (state==LOW)
-      cout << "((((eteint))))\n";
-    else
-    cout << "((((allume))))\n";
-    sleep(temps);
-    }
-}
-
-//////////////////////////// CLASSE ACTIONNEUR LED INTELLIGENTE //////////////////////////////////////////
-
-//classe IntelligentDigitalActuatorLED
-IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):Device(),state(LOW),temps(t){
-}
-IntelligentDigitalActuatorLED::~IntelligentDigitalActuatorLED(){}
-
-void IntelligentDigitalActuatorLED::run(){
-	//AnalogSensorLuminosity truc(DELAY,LUM);
-	  while(1){
-	    if(ptrmem!=NULL)
-	      state=*ptrmem;
-	    if (state==LOW){
-	      cout << "((((eteint))))\n";
-	      //luminosity=200;
-	    }
-
-	    else {
-	    cout << "((((allume))))\n";
-	    //luminosity=250;
-	    }
-
-	    sleep(temps);
-	    }
-
-
-}
-
-
+///////////////////////////////////// CLASSE ECRAN /////////////////////////////////////////////
 
 
 // classe I2CActuatorScreen
