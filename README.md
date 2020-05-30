@@ -2,6 +2,13 @@
 
 Nous souhaitons optimiser l'environnement d'une plante d'intérieur en jouant sur différents paramètres pour qu'elle puisse s'épanouir au mieux. Nous supposons qu'elle se situe dans une pièce où se trouve une lampe, un système d'arrosage et une fenêtre commandables.
 
+Pour lancer le programme, il faut d’abord créer l’exécutable :
+- modifier les valeurs d’environnement “originelles” en fonction du paramètre que l’on veut tester. Pour cela, ouvrir environnement.cpp et modifier les valeurs des paramètres, aux lignes 11 à 14. Enregistrer le fichier.
+- ouvrir le shell, et se placer dans le sous-dossier src
+- taper dans le shell ../compile_linux.sh
+- une fois la compilation faite, taper ./arduino
+
+# Description du système
 Notre système est donc constitué de 4 capteurs :
 - un détecteur d’humidité (placé dans la terre du pot)
 - un détecteur de température
@@ -32,5 +39,3 @@ Architecture du projet :
 
 Nous supposons que les mesures sont prises à une fréquence très faible : une mesure toutes les 30 min/1h par ex. En effet, la plante n'a pas besoin d'un taux d'humidité optimal en permanence, elle possède une certaine souplesse. 
 Pour illustrer sa "résilience", nous lui avons assigné une quantité d'énergie, qui augmente si elle est "à son aise" et qui se détériore si les conditions sont mauvaises trop longtemps. La plante meurt si son énergie est totalement épuisée.
-
-Différentes améliorations seront apportées dans les prochains jours !
