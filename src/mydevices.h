@@ -15,7 +15,6 @@
 class Capteur : public Device{
 
 protected :
-	//float alea ; //ecart entre les differentes valeurs mesurees
 	int temps ; //temps ecoule entre deux mesures
 	int val ; //valeur lue par le capteur
 	int val_max;
@@ -33,7 +32,6 @@ class AnalogSensorLuminosity: public Capteur {
 public :
 	AnalogSensorLuminosity(int d, int v);
 	~AnalogSensorLuminosity();
-
 	virtual void run();
 };
 
@@ -104,7 +102,6 @@ class Lampe: public Actionneur {
 private:
   // etat de la LED
   int state;
-
   
 public:
     // initialisation du temps de rafraichissement
@@ -112,9 +109,7 @@ public:
   ~Lampe ();
   // thread representant l'actionneur et permettant de fonctionner independamment de la board
   virtual void run();
-  
-  void Allumer();
-  void Eteindre();
+
 };
 
 ////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
@@ -131,8 +126,6 @@ public :
 	Moteur(int d);
 	~Moteur();
 	virtual void run()=0;
-	int read_speed();
-	int read_position();
 	
 };
 
@@ -144,7 +137,6 @@ public :
 	virtual void run();
 	Ventilateur(int d);
 	~Ventilateur();
-	void Write_speed(int sp);
 };
 
 
@@ -155,7 +147,6 @@ public :
 	virtual void run();
 	Chauffage(int d);
 	~Chauffage();
-	void Write_speed(int sp);
 };
 
 
@@ -167,10 +158,9 @@ public :
 	MoteurFenetre(int d);
 	~MoteurFenetre();
 	virtual void run();
-	
-	void Write_pos(int p);
-	void Ouvrir_fenetre();
-	void Fermer_fenetre();
+	//void Write_pos(int p);
+	//void Ouvrir_fenetre();
+	//void Fermer_fenetre();
 };
 
 
@@ -189,20 +179,6 @@ public:
   ~I2CActuatorScreen ();
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
-};
-
-
-//Bouton exterieur : peut peut-etre servir pour modifier "a la main" les parametres d'environnement
-class ExternalDigitalSensorButton: public Device {
-	
-public :
-	ExternalDigitalSensorButton();
-	~ExternalDigitalSensorButton();
-	
-	int DetectButton();
-	
-	void run();
-	
 };
 
 

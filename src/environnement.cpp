@@ -5,9 +5,9 @@ using namespace std;
 ////////////////////////// CLASSE ENVIRONNEMENT ////////////////////////////////////////
 
 Environnement::Environnement(){}
+
 Environnement::~Environnement(){}
 
-//initialisation des variables statiques - test1 -> temperature et humidite
 int Environnement::luminosity = 15; 
 int Environnement::temperature = 50; 
 int Environnement::CO2 = 3;
@@ -66,6 +66,7 @@ Plante ::Plante(){
 
 	cout<<"Une nouvelle plante ! Youpi !"<<endl;
 }
+
 Plante ::~Plante(){}
 
 void Plante::UpdateEnergy(int temp, int hum, int lum, int co2, int *TauxHum, int *TauxTemp){
@@ -91,82 +92,82 @@ void Plante::UpdateEnergy(int temp, int hum, int lum, int co2, int *TauxHum, int
 }
 
 
-	bool Plante ::IsAlive(int temp, int hum, int lum, int co2, int *TauxHum, int *TauxTemp){
-		bool vivante;
-		UpdateEnergy(temp, hum, lum, co2, TauxHum, TauxTemp);
-		if (Energy==0){
-			vivante=false; //plante meurt quand elle froid / chaud + soif + pas de lumiere + pas d'energie
-			cout<<"Plante : je suis morte :("<<endl;
-		}
-		else {
-			vivante=true;
-		}
-		return vivante;
+bool Plante ::IsAlive(int temp, int hum, int lum, int co2, int *TauxHum, int *TauxTemp){
+	bool vivante;
+	UpdateEnergy(temp, hum, lum, co2, TauxHum, TauxTemp);
+	if (Energy==0){
+		vivante=false;
+		cout<<"Plante : je suis morte :("<<endl;
 	}
+	else {
+		vivante=true;
+	}
+	return vivante;
+}
 
 
-	int Plante::IsThirsty(int hum, int *TauxHum){ //-> 0 si OK / 1 si soif /2 si trop humide
-		int soif;
+int Plante::IsThirsty(int hum, int *TauxHum){ //-> 0 si OK / 1 si soif /2 si trop humide
+	int soif;
+	
+	if (hum < MinEau){
+		soif = 1;
+		*TauxHum=MinEau-hum;
+	}
+	else if (hum > MaxEau){
+		soif = 2;
+		*TauxHum=hum-MaxEau;
+	}
+	else {
+		soif = 0;
+		*TauxHum=0;
+	}
+	return soif;
+}
+
+
+bool Plante ::NeedsLight(int lum){ //-> 0 si OK / 1 si pas assez de lumiere
+	
+	bool noir;
+	if (lum <MinLum){ //kilolux
+		noir = true;
+	}
+	else {
+		noir = false;
+	}
+	return noir;
+}
+
+
+bool Plante::NeedsMoreCO2(int co2){ //-> 0 si OK / 1 si pas assez de CO2
 		
-		if (hum < MinEau){
-			soif = 1;
-			*TauxHum=MinEau-hum;
-		}
-		else if (hum > MaxEau){
-			soif = 2;
-			*TauxHum=hum-MaxEau;
-		}
-		else {
-			soif = 0;
-			*TauxHum=0;
-		}
-		return soif;
+	bool PasDair;
+	if (co2<MinCO2){
+		PasDair=true;
 	}
-
-
-	bool Plante ::NeedsLight(int lum){ //-> 0 si OK / 1 si pas assez de lumiere
-		
-		bool noir;
-		if (lum <MinLum){ //kilolux
-			noir = true;
-		}
-		else {
-			noir = false;
-		}
-		return noir;
+	else {
+		PasDair=false;
 	}
+	return PasDair;
+}
 
 
-	bool Plante::NeedsMoreCO2(int co2){ //-> 0 si OK / 1 si pas assez de CO2
-			
-		bool PasDair;
-		if (co2<MinCO2){
-			PasDair=true;
-		}
-		else {
-			PasDair=false;
-		}
-		return PasDair;
+int Plante::NeedsHeat(int temp, int *TauxTemp){  //-> 0 si OK / 1 si trop chaud / 2 si trop froid
+	
+	int chaleur;
+	if (temp<MinTemp){ //trop froid
+		chaleur=2;
+		*TauxTemp=MinTemp-temp;
 	}
-
-
-	int Plante::NeedsHeat(int temp, int *TauxTemp){  //-> 0 si OK / 1 si trop chaud / 2 si trop froid
-		
-		int chaleur;
-		if (temp<MinTemp){ //trop froid
-			chaleur=2;
-			*TauxTemp=MinTemp-temp;
-		}
-		else if (temp>MaxTemp){ //trop chaud
-			chaleur=1;
-			*TauxTemp=temp-MaxTemp;
-		}
-		else { // tout va bien :)
-			chaleur =0;
-			*TauxTemp=0;
-		}
-		return chaleur;
+	else if (temp>MaxTemp){ //trop chaud
+		chaleur=1;
+		*TauxTemp=temp-MaxTemp;
 	}
+	else { // tout va bien :)
+		chaleur =0;
+		*TauxTemp=0;
+	}
+	return chaleur;
+}
 
 
 
@@ -175,8 +176,7 @@ void Plante::UpdateEnergy(int temp, int hum, int lum, int co2, int *TauxHum, int
 HappySeed::HappySeed(){
 	NbPlantes=0;
 
-	//liste de plantes
-	//liste d'environnement
+	//liste de plantes -> evolution possible
 }
 
 
@@ -224,15 +224,13 @@ bool HappySeed ::main(int temp, int hum, int lum, int co2, int *TauxHum, int *Ta
 			commandTab[0]=ctrl_fenetre;
 		}
 		else if ((plantain->IsThirsty(hum, TauxHum))==0){
-			//fermeture fenetre
-			//arret arrosage
+			//fermeture fenetre et arret arrosage
 			commandTab[0]=0;
 			commandTab[4]=0;
 			cout<<"Plante : J'ai assez d'eau :)"<<endl;
 		}
 		if ((plantain->NeedsHeat(temp, TauxTemp)) ==1){ //1 si trop chaud
-			//actionneur Ventilateur se met en route
-			//arret actionneur chauffage
+			//actionneur Ventilateur se met en route ; et arret actionneur chauffage
 			commandTab[1]=0;
 			cout<<"Plante : il fait chaud :("<<endl;
 			int ctrl_ventilo;
@@ -314,10 +312,6 @@ bool HappySeed ::main(int temp, int hum, int lum, int co2, int *TauxHum, int *Ta
 		}
 	}
 
-	/*for (int i=0;i<5;i++){
-		cout<<commandTab[i]<<" ";
-	}
-	cout<<endl;*/
 	cout<<"***************"<<endl;
 	cout<<endl;
 

@@ -8,7 +8,6 @@ using namespace std;
 //////////////////////////// CLASSE CAPTEUR //////////////////////////////////////////
 
 Capteur ::Capteur():Device(){
-	//alea=0;
 	temps=1;
 	val=0;
 	ptrmem=0;
@@ -22,12 +21,12 @@ Capteur ::Capteur(int d, int v):Device(), temps(d), val(v){
 //////////////////////////// CLASSE CAPTEUR LUMINOSITE //////////////////////////////////////////
 
 
-//ordre des arguments doit etre le meme que dans le .h
 AnalogSensorLuminosity::AnalogSensorLuminosity(int d, int v):Capteur(d, v) {
 	val_max=100;
 	val_min=1;
 	cout <<"Capteur luminosite initialise"<<endl;
 }
+
 AnalogSensorLuminosity::~AnalogSensorLuminosity(){}
 
 
@@ -54,12 +53,13 @@ void AnalogSensorLuminosity::run(){
 
 //////////////////////////// CLASSE CAPTEUR TEMPERATURE //////////////////////////////////////////
 
-//classe AnalogSensorTemperature
+
 AnalogSensorTemperature::AnalogSensorTemperature(int d, int v):Capteur(d, v){
 	cout <<"Capteur temperature initialise"<<endl;
 	val_max=300;
 	val_min=-150;
 }
+
 AnalogSensorTemperature::~AnalogSensorTemperature(){}
 
 void AnalogSensorTemperature::run(){
@@ -85,12 +85,13 @@ void AnalogSensorTemperature::run(){
 
 //////////////////////////// CLASSE CAPTEUR HUMIDITE //////////////////////////////////////////
 
-  //constructeur
+
 AnalogSensorHumidity::AnalogSensorHumidity (int d, int v):Capteur(d, v){
 	cout <<"Capteur humidite initialise"<<endl;
 	val_max=100;
 	val_min=0;
 }
+
 AnalogSensorHumidity::~AnalogSensorHumidity (){}
 
 
@@ -118,12 +119,13 @@ AnalogSensorHumidity::~AnalogSensorHumidity (){}
 
 //////////////////////////// CLASSE CAPTEUR CO2 //////////////////////////////////////////
 
-  //constructeur
+
 AnalogSensorCO2::AnalogSensorCO2 (int d, int v):Capteur(d, v){
 	cout <<"Capteur CO2 initialise"<<endl;
 	val_max=50 ;
 	val_min=0;
 }
+
 AnalogSensorCO2::~AnalogSensorCO2 (){}
 
 
@@ -186,13 +188,6 @@ void Lampe::run(){
 }
 
 
-  void Lampe::Allumer(){
-	  state=HIGH;
-  }
-  void Lampe::Eteindre(){
-	  state=LOW;
-  }
-
 
 ////////////////////////////CLASSE MOTEUR /////////////////////////////////////////////
 
@@ -201,135 +196,123 @@ Moteur::Moteur(int d):Actionneur(d){
 	position=0;
 }
 
-	int Moteur :: read_speed(){
-		return speed;		//0 -> arrete ET 10 -> vitesse max
-	}
-	int Moteur :: read_position(){
-		return position;	//0 position de base = 360 degres.
-	}
 
-	//virtual void Moteur::run()=0; //fonction virtuelle pure
-	Moteur::~Moteur(){}
+//virtual void Moteur::run()=0; //fonction virtuelle pure
+Moteur::~Moteur(){}
 
 /////////////////////////////CLASSE VENTILATEUR //////////////////////////////////////////////////
 //Ici la position n'est pas pertinente,on ne regarde que la vitesse
 
-	void Ventilateur ::run(){
+void Ventilateur ::run(){
 
-	while(1){
-		  if(ptrmem!=NULL){
-                if (*ptrmem<max_speed){
-                    speed=*ptrmem;
-                }
-                else {
-                    speed=max_speed;
-                }
-		  }
+while(1){
+	  if(ptrmem!=NULL){
+			if (*ptrmem<max_speed){
+				speed=*ptrmem;
+			}
+			else {
+				speed=max_speed;
+			}
+	  }
 
-		  if (speed==0){
-			  cout << "---- Ventilateur eteint ----\n";
-		  }
+	  if (speed==0){
+		  cout << "---- Ventilateur eteint ----\n";
+	  }
 
-		  else {
-			  int temp = Environnement::Get_temp();
-			  cout << "---- Ventilateur allume ----\n";
-			  cout<<"---- Ventilateur vitesse "<< speed <<" ----\n";
-			  Environnement::Set_temp(temp-(int)(speed/2));
-		  }
-		  sleep(temps);
-		  }
+	  else {
+		  int temp = Environnement::Get_temp();
+		  cout << "---- Ventilateur allume ----\n";
+		  cout<<"---- Ventilateur vitesse "<< speed <<" ----\n";
+		  Environnement::Set_temp(temp-(int)(speed/2));
+	  }
+	  sleep(temps);
+	  }
 
-	}
-	Ventilateur ::Ventilateur(int d): Moteur(d){
-		cout <<"ventilateur initialise"<<endl;
-		max_speed=10;
-	}
-	Ventilateur ::~Ventilateur(){}
+}
 
 
-	void Ventilateur ::Write_speed(int sp){
-		speed = sp;
-		//a faire plus tard : fonction de saisie au clavier
-	}
+Ventilateur ::Ventilateur(int d): Moteur(d){
+	cout <<"ventilateur initialise"<<endl;
+	max_speed=10;
+}
+
+
+Ventilateur ::~Ventilateur(){}
 
 
 
 /////////////////////////////CLASSE CHAUFFAGE //////////////////////////////////////////////////
 
 
-	Chauffage::Chauffage(int d): Moteur(d){
-		cout <<"chauffage initialise"<<endl;
-		max_speed=10;
-	}
-	Chauffage::~Chauffage(){}
+Chauffage::Chauffage(int d): Moteur(d){
+	cout <<"chauffage initialise"<<endl;
+	max_speed=10;
+}
 
-	void Chauffage ::run(){
+Chauffage::~Chauffage(){}
 
-
+void Chauffage ::run(){
+	
 	while(1){
-		  if(ptrmem!=NULL){
-            if (*ptrmem<max_speed){
-                    speed=*ptrmem;
-                }
-                else {
-                    speed=max_speed;
-                }
-		  }
-		  if (speed==0) {
-			  cout << "---- Chauffage eteint ----\n";
-		  }
-		  else {
-			  int temp = Environnement::Get_temp();
-			  cout << "---- Chauffage allume ----\n";
-			  cout<<"---- Chauffage : vitesse "<< speed << " ----\n"<<endl;
-			  Environnement::Set_temp(temp+(int)(speed/2));
-		  }
-		  sleep(temps);
-		  }
-	}
-
-
-	void Chauffage ::Write_speed(int sp){
-		speed=sp;
-	}
+	  if(ptrmem!=NULL){
+		if (*ptrmem<max_speed){
+				speed=*ptrmem;
+			}
+			else {
+				speed=max_speed;
+			}
+	  }
+	  if (speed==0) {
+		  cout << "---- Chauffage eteint ----\n";
+	  }
+	  else {
+		  int temp = Environnement::Get_temp();
+		  cout << "---- Chauffage allume ----\n";
+		  cout<<"---- Chauffage : vitesse "<< speed << " ----\n"<<endl;
+		  Environnement::Set_temp(temp+(int)(speed/2));
+	  }
+	  sleep(temps);
+	  }
+}
 
 
 
 /////////////////////////////CLASSE OUVERTURE FENETRE //////////////////////////////////////////////////
 //Ici la vitesse n'est pas pertinente,on ne regarde que la position
 
-	MoteurFenetre::MoteurFenetre(int d):Moteur(d){
-		cout <<"moteur fenetre initialise"<<endl;
-		max_pos=50;
+MoteurFenetre::MoteurFenetre(int d):Moteur(d){
+	cout <<"moteur fenetre initialise"<<endl;
+	max_pos=50;
+}
+
+MoteurFenetre::~MoteurFenetre(){}
+
+void MoteurFenetre::run(){
+	while(1){
+	  if(ptrmem!=NULL){
+			if (*ptrmem<max_pos){
+				position=*ptrmem;
+			}
+			else {position=max_pos;
+			}    
+	  }
+		
+	  if (position==0){
+		  cout << "---- Fenetre fermee ----\n";
+	  }
+	  else {
+		  int hum= Environnement::Get_hum();
+		  cout << "---- Fenetre ouverte ----\n";
+		  cout<<"---- Angle fenetre "<< position << " ----\n"<<endl;
+		  Environnement::Set_hum(hum-(int)(position/5));
+	  }
+	  sleep(temps);
 	}
-	MoteurFenetre::~MoteurFenetre(){}
 
-	void MoteurFenetre::run(){
-		while(1){
-		  if(ptrmem!=NULL){
-                if (*ptrmem<max_pos){
-                    position=*ptrmem;
-                }
-                else {position=max_pos;
-                }    
-		  }
-			
-		  if (position==0){
-			  cout << "---- Fenetre fermee ----\n";
-		  }
-		  else {
-			  int hum= Environnement::Get_hum();
-			  cout << "---- Fenetre ouverte ----\n";
-			  cout<<"---- Angle fenetre "<< position << " ----\n"<<endl;
-			  Environnement::Set_hum(hum-(int)(position/5));
-		  }
-		  sleep(temps);
-		}
+}
 
-	}
-
-
-
+//Fonctions qui ne sont pas utiles au final
+/*
 	void MoteurFenetre::Write_pos(int p){
 		position=p;
 	}
@@ -353,31 +336,32 @@ Moteur::Moteur(int d):Actionneur(d){
 			sleep(1);
 		}
 	}
-
+*/
 
 	///////////////////////////CLASSE ARROSAGE //////////////////////////////////////////
 
 
-		Arrosage::Arrosage(int d):Actionneur(d){
-			cout <<"arrosage initialise"<<endl;
-		}
-		Arrosage::~Arrosage(){}
+Arrosage::Arrosage(int d):Actionneur(d){
+	cout <<"arrosage initialise"<<endl;
+}
 
-		void Arrosage::run(){
-			while(1){
-			  if(ptrmem!=NULL)
-			    state=*ptrmem;
-			  if (state==LOW){
-			    cout << "---- Arrosage eteint ----\n";
-			  }
+Arrosage::~Arrosage(){}
 
-			  else {
-				  cout << "---- Arrosage allume ----\n";
-				  Environnement::Set_hum(Environnement::Get_hum()+10);
-			  }
-			  sleep(temps);
-			  }
-		}
+void Arrosage::run(){
+	while(1){
+	  if(ptrmem!=NULL)
+		state=*ptrmem;
+	  if (state==LOW){
+		cout << "---- Arrosage eteint ----\n";
+	  }
+
+	  else {
+		  cout << "---- Arrosage allume ----\n";
+		  Environnement::Set_hum(Environnement::Get_hum()+10);
+	  }
+	  sleep(temps);
+	}
+}
 
 
 
@@ -399,23 +383,3 @@ void I2CActuatorScreen::run(){
     }
 }
 
-ExternalDigitalSensorButton::ExternalDigitalSensorButton():Device(){}
-ExternalDigitalSensorButton::~ExternalDigitalSensorButton(){}
-int ExternalDigitalSensorButton :: DetectButton(){
-	int appui;
-
-	if(ifstream("on.txt")){
-		appui = 1;
-	}
-	else {
-		appui=0;
-	}
-	return appui;
-}
-
-void ExternalDigitalSensorButton ::run(){
-	while(1){
-
-
-	}
-}

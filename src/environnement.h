@@ -10,8 +10,8 @@
 #include "core_simulation.h"
 #include "mydevices.h"
 
-#define MIN_EAU 60	//60 d'habitude
-#define MAX_EAU 90 //90 d'habitude, modif pour les tests
+#define MIN_EAU 60	
+#define MAX_EAU 90 
 #define MIN_LUM 10
 #define MIN_CO2 2
 #define MIN_TEMP 15
